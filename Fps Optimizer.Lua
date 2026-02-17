@@ -24,7 +24,7 @@ print(string.rep("=", 70) .. "\n")
 -- 1. imgur.com (recommended)
 -- 2. catbox.moe
 -- 3. Or use Asset ID if uploaded to Roblox
-local LOGO_IMAGE = "https://create.roblox.com/store/asset/112653532744867"  -- CHANGE THIS!
+local LOGO_IMAGE = "https://imgur.com/a/a4NT73M"  -- CHANGE THIS!
 -- Or use direct URL:
 -- local LOGO_IMAGE = "https://create.roblox.com/store/asset/112653532744867"
 
