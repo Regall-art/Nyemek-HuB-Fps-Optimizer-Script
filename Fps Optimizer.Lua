@@ -766,8 +766,8 @@ Rayfield:CreateButton(SystemTab, {
 
 -- INFO TAB (WITH CONTENT!)
 Rayfield:CreateParagraph(InfoTab, {
-   Title = "About FPS Optimizer",
-   Content = "Universal FPS optimization tool for all Roblox games. Boost performance, reduce lag, and optimize rendering!"
+   Title = "About Nyemek HuB",
+   Content = "Nyemek HuB is a premier Roblox script provider dedicated to enhancing your gaming experience."
 })
 
 Rayfield:CreateParagraph(InfoTab, {
