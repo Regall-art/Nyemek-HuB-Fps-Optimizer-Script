@@ -1,185 +1,684 @@
--- [[ NYEMEK HUB: ULTIMATE CUSTOM ENGINE - RAYFIELD STYLE ]] --
--- TOTAL FEATURES: FULL 865 LINE LOGIC (PRESERVED)
--- NO EXTERNAL LIBRARY - 100% SUCCESS EXECUTION
+-- FPS OPTIMIZER - ORION UI
+-- Using Orion Library
+-- Modern & Clean Design
 
-local TweenService = game:GetService("TweenService")
-local UserInputService = game:GetService("UserInputService")
+local Orion = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Orion/main/source'))()
+
 local RunService = game:GetService("RunService")
-local Lighting = game:GetService("Lighting")
 local Players = game:GetService("Players")
+local Lighting = game:GetService("Lighting")
 local Workspace = game:GetService("Workspace")
+
 local player = Players.LocalPlayer
 
--- [[ UI CONSTRUCTION ]] --
-local sg = Instance.new("ScreenGui", player.PlayerGui)
-sg.Name = "NyemekHub_Final"
-sg.ResetOnSpawn = false
+print("\n" .. string.rep("=", 70))
+print("FPS OPTIMIZER - ORION UI")
+print("Modern Interface with Smooth Animations")
+print(string.rep("=", 70) .. "\n")
 
-local Main = Instance.new("Frame", sg)
-Main.Size = UDim2.new(0, 450, 0, 320)
-Main.Position = UDim2.new(0.5, -225, 0.5, -160)
-Main.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
-Main.BorderSizePixel = 0
-Main.ClipsDescendants = true
-Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 9)
-local Stroke = Instance.new("UIStroke", Main)
-Stroke.Color = Color3.fromRGB(45, 45, 45)
-Stroke.Thickness = 1.5
+-- Settings
+local Settings = {
+   ShowFPS = false,
+}
 
--- Header
-local Header = Instance.new("Frame", Main)
-Header.Size = UDim2.new(1, 0, 0, 45)
-Header.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
-Header.BorderSizePixel = 0
-local Title = Instance.new("TextLabel", Header)
-Title.Text = "  NYEMEK HUB | PRO OPTIMIZER v2.0"
-Title.Size = UDim2.new(1, 0, 1, 0)
-Title.BackgroundTransparency = 1
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.Font = Enum.Font.GothamBold
-Title.TextSize = 14
-Title.TextXAlignment = Enum.TextXAlignment.Left
+-- CREATE WINDOW (CUSTOMIZE HERE!)
+local Window = Orion:MakeWindow({
+   Name = "FPS Optimizer Pro",           -- CHANGE THIS!
+   HidePremium = false,
+   SaveConfig = true,
+   ConfigFolder = "FPSOptimizer",
+   IntroEnabled = true,
+   IntroText = "FPS Optimizer",
+   IntroIcon = "rbxassetid://4483345998",
+   Icon = "rbxassetid://4483345998"
+})
 
--- Container
-local Container = Instance.new("ScrollingFrame", Main)
-Container.Position = UDim2.new(0, 10, 0, 55)
-Container.Size = UDim2.new(1, -20, 1, -65)
-Container.BackgroundTransparency = 1
-Container.CanvasSize = UDim2.new(0, 0, 1.8, 0) -- Muat banyak fitur
-Container.ScrollBarThickness = 2
-local UIList = Instance.new("UIListLayout", Container)
-UIList.Padding = UDim.new(0, 7)
+-- ============================================
+-- TAB: BOOST
+-- ============================================
+local BoostTab = Window:MakeTab({
+   Name = "⚡ Boost",
+   Icon = "rbxassetid://4483345998",
+   PremiumOnly = false
+})
 
--- [[ ENGINE FUNCTIONS (800+ LINE LOGIC) ]] --
+BoostTab:AddParagraph("Quick Boost Modes", "Select a preset to instantly boost your FPS. All modes are collision-safe!")
 
-local function DeepClean()
-    -- Logic: Deep Asset Purge
-    for _, v in pairs(game:GetDescendants()) do
-        pcall(function()
-            if v:IsA("Texture") or v:IsA("Decal") then
-                v:Destroy()
-            elseif v:IsA("BasePart") or v:IsA("MeshPart") then
-                v.Material = Enum.Material.SmoothPlastic
-                v.Reflectance = 0
-                v.CastShadow = false
-                if v:IsA("MeshPart") then v.TextureID = "" end
-            elseif v:IsA("SpecialMesh") then
-                v.TextureId = ""
-            elseif v:IsA("ParticleEmitter") or v:IsA("Trail") or v:IsA("Fire") or v:IsA("Sparkles") then
-                v.Enabled = false
+BoostTab:AddButton({
+   Name = "🚀 Ultra Boost (Recommended)",
+   Callback = function()
+      ApplyUltraBoost()
+      Orion:MakeNotification({
+         Name = "Ultra Boost",
+         Content = "All optimizations applied successfully!",
+         Image = "rbxassetid://4483345998",
+         Time = 3
+      })
+   end
+})
+
+BoostTab:AddButton({
+   Name = "🥔 Potato Mode (Low-End PC)",
+   Callback = function()
+      ApplyPotatoMode()
+      Orion:MakeNotification({
+         Name = "Potato Mode",
+         Content = "Maximum FPS mode activated!",
+         Image = "rbxassetid://4483345998",
+         Time = 3
+      })
+   end
+})
+
+BoostTab:AddButton({
+   Name = "⚡ Performance Mode (Balanced)",
+   Callback = function()
+      ApplyPerformanceMode()
+      Orion:MakeNotification({
+         Name = "Performance Mode",
+         Content = "Balanced settings applied!",
+         Image = "rbxassetid://4483345998",
+         Time = 3
+      })
+   end
+})
+
+BoostTab:AddToggle({
+   Name = "Show FPS Counter",
+   Default = false,
+   Callback = function(value)
+      Settings.ShowFPS = value
+      ShowFPSCounter(value)
+   end
+})
+
+-- ============================================
+-- TAB: GRAPHICS
+-- ============================================
+local GraphicsTab = Window:MakeTab({
+   Name = "🎨 Graphics",
+   Icon = "rbxassetid://4483345998",
+   PremiumOnly = false
+})
+
+GraphicsTab:AddParagraph("Visual Optimization", "Toggle individual graphics optimizations")
+
+GraphicsTab:AddToggle({
+   Name = "Remove Textures",
+   Default = false,
+   Callback = function(value)
+      if value then
+         RemoveTextures()
+         Orion:MakeNotification({
+            Name = "Textures",
+            Content = "All textures have been removed!",
+            Image = "rbxassetid://4483345998",
+            Time = 2
+         })
+      end
+   end
+})
+
+GraphicsTab:AddToggle({
+   Name = "Remove Particles & Effects",
+   Default = false,
+   Callback = function(value)
+      if value then
+         RemoveParticles()
+         Orion:MakeNotification({
+            Name = "Particles",
+            Content = "All particle effects removed!",
+            Image = "rbxassetid://4483345998",
+            Time = 2
+         })
+      end
+   end
+})
+
+GraphicsTab:AddToggle({
+   Name = "Remove Shadows",
+   Default = false,
+   Callback = function(value)
+      RemoveShadows(value)
+      if value then
+         Orion:MakeNotification({
+            Name = "Shadows",
+            Content = "Shadows have been disabled!",
+            Image = "rbxassetid://4483345998",
+            Time = 2
+         })
+      end
+   end
+})
+
+GraphicsTab:AddToggle({
+   Name = "Remove Fog",
+   Default = false,
+   Callback = function(value)
+      RemoveFog(value)
+      if value then
+         Orion:MakeNotification({
+            Name = "Fog",
+            Content = "Distance fog removed!",
+            Image = "rbxassetid://4483345998",
+            Time = 2
+         })
+      end
+   end
+})
+
+GraphicsTab:AddToggle({
+   Name = "Disable Blur & Color Effects",
+   Default = false,
+   Callback = function(value)
+      DisableLightingEffects(value)
+   end
+})
+
+-- ============================================
+-- TAB: SYSTEM
+-- ============================================
+local SystemTab = Window:MakeTab({
+   Name = "🛠️ System",
+   Icon = "rbxassetid://4483345998",
+   PremiumOnly = false
+})
+
+SystemTab:AddParagraph("Memory Optimization", "Clean up memory and optimize system resources")
+
+SystemTab:AddButton({
+   Name = "🧹 Clear Memory Cache",
+   Callback = function()
+      ClearMemory()
+      Orion:MakeNotification({
+         Name = "Memory Cleared",
+         Content = "Memory cache has been cleared!",
+         Image = "rbxassetid://4483345998",
+         Time = 2
+      })
+   end
+})
+
+SystemTab:AddButton({
+   Name = "🗑️ Remove Unused Assets",
+   Callback = function()
+      RemoveUnusedAssets()
+      Orion:MakeNotification({
+         Name = "Assets Removed",
+         Content = "Unused assets have been removed!",
+         Image = "rbxassetid://4483345998",
+         Time = 2
+      })
+   end
+})
+
+SystemTab:AddButton({
+   Name = "⚙️ Optimize Workspace",
+   Callback = function()
+      OptimizeWorkspace()
+      Orion:MakeNotification({
+         Name = "Workspace Optimized",
+         Content = "Workspace has been optimized!",
+         Image = "rbxassetid://4483345998",
+         Time = 2
+      })
+   end
+})
+
+SystemTab:AddParagraph("Physics Optimization", "Optimize physics calculations")
+
+SystemTab:AddToggle({
+   Name = "Reduce Physics Quality",
+   Default = false,
+   Callback = function(value)
+      ReducePhysicsSafe(value)
+   end
+})
+
+SystemTab:AddButton({
+   Name = "🔧 Fix Physics Lag",
+   Callback = function()
+      FixPhysics()
+      Orion:MakeNotification({
+         Name = "Physics Fixed",
+         Content = "Physics lag has been reduced!",
+         Image = "rbxassetid://4483345998",
+         Time = 2
+      })
+   end
+})
+
+-- ============================================
+-- TAB: ADVANCED
+-- ============================================
+local AdvancedTab = Window:MakeTab({
+   Name = "⚙️ Advanced",
+   Icon = "rbxassetid://4483345998",
+   PremiumOnly = false
+})
+
+AdvancedTab:AddParagraph("Advanced Options", "Advanced optimization settings")
+
+AdvancedTab:AddToggle({
+   Name = "Remove Terrain Textures",
+   Default = false,
+   Callback = function(value)
+      RemoveTerrainTextures(value)
+   end
+})
+
+AdvancedTab:AddToggle({
+   Name = "Disable Post-Processing",
+   Default = false,
+   Callback = function(value)
+      DisablePostProcessing(value)
+   end
+})
+
+AdvancedTab:AddButton({
+   Name = "⚠️ DESTROY ALL VISUALS (MAX FPS)",
+   Callback = function()
+      DestroyAllVisuals()
+      Orion:MakeNotification({
+         Name = "Maximum Optimization",
+         Content = "All visuals destroyed! Max FPS mode!",
+         Image = "rbxassetid://4483345998",
+         Time = 3
+      })
+   end
+})
+
+AdvancedTab:AddButton({
+   Name = "↩️ Restore Default Settings",
+   Callback = function()
+      RestoreDefaults()
+      Orion:MakeNotification({
+         Name = "Defaults Restored",
+         Content = "All settings restored to default!",
+         Image = "rbxassetid://4483345998",
+         Time = 2
+      })
+   end
+})
+
+-- ============================================
+-- TAB: INFO
+-- ============================================
+local InfoTab = Window:MakeTab({
+   Name = "ℹ️ Info",
+   Icon = "rbxassetid://4483345998",
+   PremiumOnly = false
+})
+
+InfoTab:AddParagraph("About This Script", "Universal FPS Optimizer for all Roblox games. Boost FPS, reduce lag, and optimize performance!")
+
+InfoTab:AddParagraph("🎮 Low-End PC", "Recommended: Ultra FPS Boost + Potato Mode. Remove all textures and particles.")
+
+InfoTab:AddParagraph("💻 Mid-Range PC", "Recommended: Performance Mode. Remove shadows and fog only.")
+
+InfoTab:AddParagraph("🖥️ High-End PC", "Recommended: Remove shadows only to maintain visual quality while boosting FPS.")
+
+InfoTab:AddButton({
+   Name = "📈 Show Performance Stats",
+   Callback = function()
+      ShowPerformanceStats()
+   end
+})
+
+-- ============================================
+-- OPTIMIZATION FUNCTIONS
+-- ============================================
+
+function ApplyUltraBoost()
+   print("\n⚡ ULTRA FPS BOOST")
+   RemoveTextures()
+   RemoveParticles()
+   RemoveShadows(true)
+   RemoveFog(true)
+   DisableLightingEffects(true)
+   ReducePhysicsSafe(true)
+   RemoveTerrainTextures(true)
+   DisablePostProcessing(true)
+   OptimizeWorkspace()
+   print("✅ All optimizations complete!")
+end
+
+function ApplyPotatoMode()
+   print("\n🥔 POTATO MODE")
+   for _, obj in pairs(Workspace:GetDescendants()) do
+      pcall(function()
+         if obj:IsA("Texture") then obj:Destroy() end
+         if obj:IsA("Decal") then obj:Destroy() end
+         if obj:IsA("ParticleEmitter") then obj:Destroy() end
+         if obj:IsA("Trail") then obj:Destroy() end
+         if obj:IsA("Smoke") then obj:Destroy() end
+         if obj:IsA("Fire") then obj:Destroy() end
+         if obj:IsA("Sparkles") then obj:Destroy() end
+         if obj:IsA("MeshPart") then obj.TextureID = "" end
+         if obj:IsA("Part") then obj.Material = Enum.Material.SmoothPlastic end
+      end)
+   end
+   
+   Lighting.GlobalShadows = false
+   Lighting.FogEnd = 100000
+   Lighting.Brightness = 0
+   
+   for _, effect in pairs(Lighting:GetChildren()) do
+      if effect:IsA("PostEffect") then
+         effect.Enabled = false
+      end
+   end
+   
+   settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
+   print("✅ POTATO MODE activated!")
+end
+
+function ApplyPerformanceMode()
+   print("\n⚡ PERFORMANCE MODE")
+   RemoveShadows(true)
+   RemoveFog(true)
+   RemoveParticles()
+   DisableLightingEffects(true)
+   Lighting.Brightness = 2
+   print("✅ Performance mode complete!")
+end
+
+function RemoveTextures()
+   print("\n🎨 Removing textures...")
+   local removed = 0
+   
+   for _, obj in pairs(Workspace:GetDescendants()) do
+      pcall(function()
+         if obj:IsA("Texture") then
+            obj:Destroy()
+            removed = removed + 1
+         elseif obj:IsA("MeshPart") then
+            obj.TextureID = ""
+            removed = removed + 1
+         elseif obj:IsA("Part") then
+            obj.Material = Enum.Material.SmoothPlastic
+         end
+      end)
+   end
+   
+   print("✅ Removed " .. removed .. " textures")
+end
+
+function RemoveParticles()
+   print("\n✨ Removing particles...")
+   local removed = 0
+   
+   for _, obj in pairs(Workspace:GetDescendants()) do
+      pcall(function()
+         if obj:IsA("ParticleEmitter") or obj:IsA("Trail") or 
+            obj:IsA("Smoke") or obj:IsA("Fire") or obj:IsA("Sparkles") then
+            obj:Destroy()
+            removed = removed + 1
+         end
+      end)
+   end
+   
+   print("✅ Removed " .. removed .. " particle effects")
+end
+
+function RemoveShadows(enabled)
+   if enabled then
+      Lighting.GlobalShadows = false
+      Lighting.Brightness = 2
+      
+      for _, obj in pairs(Workspace:GetDescendants()) do
+         pcall(function()
+            if obj:IsA("Part") or obj:IsA("MeshPart") then
+               obj.CastShadow = false
             end
-        end)
-    end
-    
-    -- Logic: Lighting Engine
-    Lighting.GlobalShadows = false
-    Lighting.FogEnd = 9e9
-    Lighting.Brightness = 1
-    for _, effect in pairs(Lighting:GetChildren()) do
-        if effect:IsA("PostEffect") or effect:IsA("BloomEffect") or effect:IsA("BlurEffect") or effect:IsA("SunRaysEffect") then
-            effect.Enabled = false
-        end
-    end
-    
-    -- Logic: System Physics
-    settings().Physics.AllowSleep = true
-    settings().Physics.PhysicsEnvironmentalThrottle = Enum.EnviromentalPhysicsThrottle.Enabled
-    settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
+         end)
+      end
+      
+      print("✅ Shadows removed")
+   else
+      Lighting.GlobalShadows = true
+      Lighting.Brightness = 1
+   end
 end
 
-local function ClearMemory()
-    for i = 1, 15 do
-        collectgarbage("collect")
-        task.wait(0.01)
-    end
+function RemoveFog(enabled)
+   if enabled then
+      Lighting.FogEnd = 100000
+      Lighting.FogStart = 0
+      print("✅ Fog removed")
+   else
+      Lighting.FogEnd = 500
+   end
 end
 
--- [[ BUTTON CREATOR (ANIMATED) ]] --
-local function AddButton(text, desc, callback)
-    local Btn = Instance.new("TextButton", Container)
-    Btn.Size = UDim2.new(1, 0, 0, 45)
-    Btn.BackgroundColor3 = Color3.fromRGB(28, 28, 28)
-    Btn.Text = "  " .. text .. " - " .. desc
-    Btn.TextColor3 = Color3.fromRGB(220, 220, 220)
-    Btn.Font = Enum.Font.Gotham
-    Btn.TextSize = 12
-    Btn.TextXAlignment = Enum.TextXAlignment.Left
-    Btn.AutoButtonColor = false
-    Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 6)
-    local bStroke = Instance.new("UIStroke", Btn)
-    bStroke.Color = Color3.fromRGB(45, 45, 45)
-
-    Btn.MouseEnter:Connect(function()
-        TweenService:Create(Btn, TweenInfo.new(0.3), {BackgroundColor3 = Color3.fromRGB(35, 35, 35)}):Play()
-        TweenService:Create(bStroke, TweenInfo.new(0.3), {Color = Color3.fromRGB(0, 255, 100)}):Play()
-    end)
-    Btn.MouseLeave:Connect(function()
-        TweenService:Create(Btn, TweenInfo.new(0.3), {BackgroundColor3 = Color3.fromRGB(28, 28, 28)}):Play()
-        TweenService:Create(bStroke, TweenInfo.new(0.3), {Color = Color3.fromRGB(45, 45, 45)}):Play()
-    end)
-    Btn.MouseButton1Click:Connect(callback)
+function DisableLightingEffects(enabled)
+   if enabled then
+      for _, effect in pairs(Lighting:GetChildren()) do
+         pcall(function()
+            if effect:IsA("BloomEffect") or effect:IsA("BlurEffect") or 
+               effect:IsA("ColorCorrectionEffect") or effect:IsA("SunRaysEffect") or
+               effect:IsA("DepthOfFieldEffect") then
+               effect.Enabled = false
+            end
+         end)
+      end
+      print("✅ Lighting effects disabled")
+   end
 end
 
--- [[ DAFTAR FITUR LENGKAP ]] --
+function ReducePhysicsSafe(enabled)
+   if enabled then
+      settings().Physics.AllowSleep = true
+      settings().Physics.PhysicsEnvironmentalThrottle = Enum.EnviromentalPhysicsThrottle.DefaultAuto
+      
+      for _, obj in pairs(Workspace:GetDescendants()) do
+         pcall(function()
+            if obj:IsA("BasePart") then
+               obj.Massless = true
+            end
+         end)
+      end
+      
+      print("✅ Physics quality reduced (collision preserved)")
+   end
+end
 
-AddButton("🚀 ULTRA BOOST", "Full Deep Cleaning & Optimization", function()
-    DeepClean()
-    print("Ultra Boost Applied")
-end)
+function ClearMemory()
+   print("\n🧹 Clearing memory cache...")
+   
+   for i = 1, 10 do
+      wait()
+      collectgarbage("collect")
+   end
+   
+   print("✅ Memory cache cleared")
+end
 
-AddButton("🥔 POTATO MODE", "Max FPS with Ugly Graphics", function()
-    DeepClean()
-    for _, v in pairs(Workspace:GetDescendants()) do
-        if v:IsA("BasePart") then v.Color = Color3.fromRGB(150, 150, 150) end
-    end
-end)
+function RemoveUnusedAssets()
+   print("\n🗑️ Removing unused assets...")
+   local removed = 0
+   
+   for _, obj in pairs(Workspace:GetDescendants()) do
+      pcall(function()
+         if obj:IsA("Sound") and not obj.IsPlaying then
+            obj:Destroy()
+            removed = removed + 1
+         end
+      end)
+   end
+   
+   print("✅ Removed " .. removed .. " unused assets")
+end
 
-AddButton("🧹 MEMORY PURGE", "Clear Garbage Collection & Cache", function()
-    ClearMemory()
-end)
+function OptimizeWorkspace()
+   print("\n⚙️ Optimizing workspace...")
+   
+   for _, obj in pairs(Workspace:GetDescendants()) do
+      pcall(function()
+         if obj:IsA("BasePart") then
+            if obj.Transparency >= 0.98 then
+               if obj.Material ~= Enum.Material.Air then
+                  obj.Material = Enum.Material.SmoothPlastic
+               end
+            end
+         end
+      end)
+   end
+   
+   print("✅ Workspace optimized (collision preserved)")
+end
 
-AddButton("🔧 PHYSICS FIX", "Set Massless & Physics Throttle", function()
-    for _, v in pairs(Workspace:GetDescendants()) do
-        if v:IsA("BasePart") then v.Massless = true end
-    end
-end)
+function FixPhysics()
+   for _, obj in pairs(Workspace:GetDescendants()) do
+      pcall(function()
+         if obj:IsA("BasePart") then
+            obj.Massless = true
+         end
+      end)
+   end
+   
+   print("✅ Physics optimized")
+end
 
-AddButton("🎨 TEXTURE REMOVER", "Remove all Decals/Textures", function()
-    for _, v in pairs(game:GetDescendants()) do
-        if v:IsA("Texture") or v:IsA("Decal") then v:Destroy() end
-    end
-end)
+function RemoveTerrainTextures(enabled)
+   if enabled then
+      pcall(function()
+         Workspace.Terrain.Decoration = false
+         Workspace.Terrain.WaterWaveSize = 0
+         Workspace.Terrain.WaterWaveSpeed = 0
+         Workspace.Terrain.WaterReflectance = 0
+         Workspace.Terrain.WaterTransparency = 0
+      end)
+      print("✅ Terrain textures removed")
+   end
+end
 
-AddButton("🚫 SHADOWS OFF", "Disable All Lighting Shadows", function()
-    Lighting.GlobalShadows = false
-end)
+function DisablePostProcessing(enabled)
+   if enabled then
+      for _, effect in pairs(Lighting:GetChildren()) do
+         pcall(function()
+            if effect:IsA("PostEffect") then
+               effect.Enabled = false
+            end
+         end)
+      end
+      print("✅ Post-processing disabled")
+   end
+end
 
-AddButton("💨 ANTI-LAG ENGINE", "Optimizing Scripts & Events", function()
-    setfpscap(999)
-    settings().Physics.AllowSleep = true
-end)
+function DestroyAllVisuals()
+   ApplyPotatoMode()
+   RemoveTextures()
+   RemoveParticles()
+end
 
--- [[ DRAGGING SYSTEM ]] --
-local dragging, dragInput, dragStart, startPos
-Header.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = true
-        dragStart = input.Position
-        startPos = Main.Position
-    end
-end)
-UserInputService.InputChanged:Connect(function(input)
-    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-        local delta = input.Position - dragStart
-        Main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-    end
-end)
-UserInputService.InputEnded:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then dragging = false end
-end)
+function RestoreDefaults()
+   Lighting.GlobalShadows = true
+   Lighting.FogEnd = 500
+   Lighting.Brightness = 1
+   
+   for _, effect in pairs(Lighting:GetChildren()) do
+      pcall(function()
+         if effect:IsA("PostEffect") then
+            effect.Enabled = true
+         end
+      end)
+   end
+   
+   settings().Rendering.QualityLevel = Enum.QualityLevel.Automatic
+   
+   print("✅ Defaults restored")
+end
 
--- Anti-AFK
-local VU = game:GetService("VirtualUser")
-player.Idled:Connect(function() VU:CaptureController() VU:ClickButton2(Vector2.new()) end)
+function ShowPerformanceStats()
+   local stats = game:GetService("Stats")
+   
+   print("\n" .. string.rep("=", 70))
+   print("PERFORMANCE STATISTICS")
+   print(string.rep("=", 70))
+   print("FPS: " .. math.floor(1 / RunService.RenderStepped:Wait()))
+   print("Memory: " .. math.floor(stats:GetTotalMemoryUsageMb()) .. " MB")
+   print("Ping: " .. math.floor(player:GetNetworkPing()) .. " ms")
+   print(string.rep("=", 70) .. "\n")
+   
+   Orion:MakeNotification({
+      Name = "Performance Stats",
+      Content = "Check console (F9) for details!",
+      Image = "rbxassetid://4483345998",
+      Time = 3
+   })
+end
 
-print("NYEMEK HUB LOADED SUCCESSFULLY!")
+function ShowFPSCounter(enabled)
+   if enabled then
+      local FPSGui = Instance.new("ScreenGui")
+      FPSGui.Name = "FPSCounter"
+      FPSGui.ResetOnSpawn = false
+      FPSGui.Parent = player.PlayerGui
+      
+      local Frame = Instance.new("Frame")
+      Frame.Size = UDim2.new(0, 100, 0, 60)
+      Frame.Position = UDim2.new(1, -110, 0, 10)
+      Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+      Frame.BorderSizePixel = 0
+      Frame.Parent = FPSGui
+      
+      local Corner = Instance.new("UICorner")
+      Corner.CornerRadius = UDim.new(0, 10)
+      Corner.Parent = Frame
+      
+      local Stroke = Instance.new("UIStroke")
+      Stroke.Color = Color3.fromRGB(99, 102, 241)
+      Stroke.Thickness = 2
+      Stroke.Parent = Frame
+      
+      local Label = Instance.new("TextLabel")
+      Label.Size = UDim2.new(1, 0, 0, 20)
+      Label.Position = UDim2.new(0, 0, 0, 5)
+      Label.BackgroundTransparency = 1
+      Label.Text = "FPS"
+      Label.TextColor3 = Color3.fromRGB(180, 180, 190)
+      Label.TextSize = 12
+      Label.Font = Enum.Font.GothamBold
+      Label.Parent = Frame
+      
+      local Value = Instance.new("TextLabel")
+      Value.Size = UDim2.new(1, 0, 0, 30)
+      Value.Position = UDim2.new(0, 0, 0, 25)
+      Value.BackgroundTransparency = 1
+      Value.Text = "60"
+      Value.TextColor3 = Color3.fromRGB(87, 242, 135)
+      Value.TextSize = 24
+      Value.Font = Enum.Font.GothamBold
+      Value.Parent = Frame
+      
+      task.spawn(function()
+         while Value.Parent do
+            local fps = math.floor(1 / RunService.RenderStepped:Wait())
+            Value.Text = tostring(fps)
+            
+            if fps >= 60 then
+               Value.TextColor3 = Color3.fromRGB(87, 242, 135)
+            elseif fps >= 30 then
+               Value.TextColor3 = Color3.fromRGB(254, 231, 92)
+            else
+               Value.TextColor3 = Color3.fromRGB(237, 66, 69)
+            end
+            
+            wait(0.5)
+         end
+      end)
+   else
+      if player.PlayerGui:FindFirstChild("FPSCounter") then
+         player.PlayerGui.FPSCounter:Destroy()
+      end
+   end
+end
+
+-- Initialize Orion
+Orion:Init()
+
+print("\n✅ FPS OPTIMIZER LOADED!")
+print("🎨 Using Orion UI Library")
+print("💡 Change name at line 22!")
+print(string.rep("=", 70) .. "\n")
