@@ -24,7 +24,7 @@ print(string.rep("=", 70) .. "\n")
 -- 1. imgur.com (recommended)
 -- 2. catbox.moe
 -- 3. Or use Asset ID if uploaded to Roblox
-local LOGO_IMAGE = "rbxassetid://YOUR_ASSET_ID_HERE"  -- CHANGE THIS!
+local LOGO_IMAGE = "https://create.roblox.com/store/asset/112653532744867"  -- CHANGE THIS!
 -- Or use direct URL:
 -- local LOGO_IMAGE = "https://create.roblox.com/store/asset/112653532744867"
 
@@ -645,7 +645,7 @@ Rayfield:CreateParagraph(BoostTab, {
 })
 
 Rayfield:CreateButton(BoostTab, {
-   Name = "🚀 Ultra Boost (Recommended)",
+   Name = "🚀 Ultra Boost",
    Callback = function()
       ApplyUltraBoost()
       Rayfield:Notify({Title = "Ultra Boost", Content = "All optimizations applied!", Duration = 3})
@@ -653,7 +653,7 @@ Rayfield:CreateButton(BoostTab, {
 })
 
 Rayfield:CreateButton(BoostTab, {
-   Name = "🥔 Potato Mode (Low-End PC)",
+   Name = "🥔 Potato Mode (Reccomended)",
    Callback = function()
       ApplyPotatoMode()
       Rayfield:Notify({Title = "Potato Mode", Content = "Maximum FPS activated!", Duration = 3})
