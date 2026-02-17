@@ -30,9 +30,9 @@ print("With Mini Toggle Button Feature")
 print(string.rep("=", 70) .. "\n")
 
 local Window = Rayfield:CreateWindow({
-   Name = "⚡ FPS Optimizer & Anti Lag",
-   LoadingTitle = "FPS Optimizer",
-   LoadingSubtitle = "Universal FPS Boost Tool",
+   Name = "⚡Nyemek HuB FPS Optimizer & Anti Lag",
+   LoadingTitle = "Nyemek HuB FPS Optimizer",
+   LoadingSubtitle = "Made By Love",
    ConfigurationSaving = {
       Enabled = true,
       FolderName = nil,
@@ -204,7 +204,7 @@ FPSTab:CreateParagraph({
 })
 
 FPSTab:CreateButton({
-   Name = "🚀 ULTRA FPS BOOST (Safe - Collision ON)",
+   Name = "🚀 ULTRA FPS BOOST",
    Callback = function()
       Settings.FPSBoost = true
       Settings.RemoveTextures = true
@@ -224,7 +224,7 @@ FPSTab:CreateButton({
 })
 
 FPSTab:CreateButton({
-   Name = "🥔 POTATO MODE (Maximum FPS)",
+   Name = "🥔 POTATO MODE",
    Callback = function()
       ApplyPotatoMode()
       
@@ -238,7 +238,7 @@ FPSTab:CreateButton({
 })
 
 FPSTab:CreateButton({
-   Name = "⚡ PERFORMANCE MODE (Balanced)",
+   Name = "⚡ PERFORMANCE MODE",
    Callback = function()
       ApplyPerformanceMode()
       
@@ -355,21 +355,6 @@ GraphicsTab:CreateToggle({
 -- TAB: ANTI LAG
 -- ============================================
 local AntiLagTab = Window:CreateTab("🛡️ Anti Lag", 4483362458)
-
-AntiLagTab:CreateSection("Memory Optimization")
-
-AntiLagTab:CreateButton({
-   Name = "🧹 Clear Memory Cache",
-   Callback = function()
-      ClearMemoryCache()
-      Rayfield:Notify({
-         Title = "Memory Cleared",
-         Content = "Memory cache has been cleared!",
-         Duration = 3,
-         Image = 4483362458,
-      })
-   end,
-})
 
 AntiLagTab:CreateButton({
    Name = "🗑️ Remove Unused Assets",
