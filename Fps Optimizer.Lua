@@ -1,6 +1,6 @@
--- FLUX UI - RAYFIELD STYLE
--- Custom UI that looks exactly like Rayfield
--- With Rayfield animations and design
+-- FLUX UI - RAYFIELD STYLE (COMPLETE)
+-- Full content + Custom logo mini button
+-- Upload logo ke imgur atau catbox, lalu ganti URL di line 25
 
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
@@ -13,35 +13,39 @@ local CoreGui = game:GetService("CoreGui")
 local player = Players.LocalPlayer
 
 print("\n" .. string.rep("=", 70))
-print("FLUX UI - RAYFIELD STYLE")
-print("Custom UI with Rayfield Design")
+print("FPS OPTIMIZER - RAYFIELD STYLE")
+print("Complete with Logo Mini Button")
 print(string.rep("=", 70) .. "\n")
 
--- Rayfield Colors (Exact Match)
-local RayfieldTheme = {
+-- ============================================
+-- CUSTOM LOGO URL (UPLOAD YOUR IMAGE!)
+-- ============================================
+-- Upload Ny_logo_512.png to:
+-- 1. imgur.com (recommended)
+-- 2. catbox.moe
+-- 3. Or use Asset ID if uploaded to Roblox
+local LOGO_IMAGE = "rbxassetid://YOUR_ASSET_ID_HERE"  -- CHANGE THIS!
+-- Or use direct URL:
+-- local LOGO_IMAGE = "https://i.imgur.com/YOUR_IMAGE.png"
+
+-- Rayfield Colors
+local Theme = {
    Background = Color3.fromRGB(25, 25, 25),
    Topbar = Color3.fromRGB(30, 30, 30),
    TabBackground = Color3.fromRGB(20, 20, 20),
    ElementBackground = Color3.fromRGB(35, 35, 35),
    ElementBackgroundHover = Color3.fromRGB(40, 40, 40),
-   SecondaryElementBackground = Color3.fromRGB(25, 25, 25),
    ElementStroke = Color3.fromRGB(50, 50, 50),
-   SecondaryElementStroke = Color3.fromRGB(40, 40, 40),
-   SliderBackground = Color3.fromRGB(43, 105, 224),
-   SliderProgress = Color3.fromRGB(43, 105, 224),
-   SliderStroke = Color3.fromRGB(48, 119, 255),
    ToggleBackground = Color3.fromRGB(30, 30, 30),
    ToggleEnabled = Color3.fromRGB(0, 125, 255),
    ToggleDisabled = Color3.fromRGB(180, 180, 180),
    ToggleEnabledStroke = Color3.fromRGB(0, 170, 255),
    ToggleDisabledStroke = Color3.fromRGB(125, 125, 125),
-   Divider = Color3.fromRGB(60, 60, 60),
    TextColor = Color3.fromRGB(240, 240, 240),
    TextDark = Color3.fromRGB(150, 150, 150)
 }
 
--- Rayfield Animations (Exact Match)
-local RayfieldAnimations = {
+local Animations = {
    Quart = TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
    Quint = TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out),
    Back = TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
@@ -49,7 +53,7 @@ local RayfieldAnimations = {
 }
 
 local function Tween(obj, props, info)
-   TweenService:Create(obj, info or RayfieldAnimations.Quart, props):Play()
+   TweenService:Create(obj, info or Animations.Quart, props):Play()
 end
 
 local function MakeDraggable(frame, handle)
@@ -80,18 +84,17 @@ local function MakeDraggable(frame, handle)
                startPos.Y.Scale,
                startPos.Y.Offset + delta.Y
             )
-         }, RayfieldAnimations.Linear)
+         }, Animations.Linear)
       end
    end)
 end
 
--- Create Rayfield-style UI
+-- UI Library
 local Rayfield = {}
 
 function Rayfield:CreateWindow(config)
    local WindowName = config.Name or "Rayfield UI"
    
-   -- ScreenGui
    local ScreenGui = Instance.new("ScreenGui")
    ScreenGui.Name = "RayfieldUI"
    ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -111,7 +114,7 @@ function Rayfield:CreateWindow(config)
    Main.Size = UDim2.new(0, 0, 0, 0)
    Main.Position = UDim2.new(0.5, 0, 0.5, 0)
    Main.AnchorPoint = Vector2.new(0.5, 0.5)
-   Main.BackgroundColor3 = RayfieldTheme.Background
+   Main.BackgroundColor3 = Theme.Background
    Main.BorderSizePixel = 0
    Main.ClipsDescendants = true
    Main.Parent = ScreenGui
@@ -123,12 +126,10 @@ function Rayfield:CreateWindow(config)
    local MainStroke = Instance.new("UIStroke")
    MainStroke.Color = Color3.fromRGB(60, 60, 60)
    MainStroke.Thickness = 1
-   MainStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
    MainStroke.Parent = Main
    
    -- Shadow
    local Shadow = Instance.new("ImageLabel")
-   Shadow.Name = "Shadow"
    Shadow.AnchorPoint = Vector2.new(0.5, 0.5)
    Shadow.BackgroundTransparency = 1
    Shadow.Position = UDim2.new(0.5, 0, 0.5, 0)
@@ -143,9 +144,8 @@ function Rayfield:CreateWindow(config)
    
    -- Topbar
    local Topbar = Instance.new("Frame")
-   Topbar.Name = "Topbar"
    Topbar.Size = UDim2.new(1, 0, 0, 42)
-   Topbar.BackgroundColor3 = RayfieldTheme.Topbar
+   Topbar.BackgroundColor3 = Theme.Topbar
    Topbar.BorderSizePixel = 0
    Topbar.Parent = Main
    
@@ -156,7 +156,7 @@ function Rayfield:CreateWindow(config)
    local TopbarCover = Instance.new("Frame")
    TopbarCover.Size = UDim2.new(1, 0, 0, 6)
    TopbarCover.Position = UDim2.new(0, 0, 1, -6)
-   TopbarCover.BackgroundColor3 = RayfieldTheme.Topbar
+   TopbarCover.BackgroundColor3 = Theme.Topbar
    TopbarCover.BorderSizePixel = 0
    TopbarCover.Parent = Topbar
    
@@ -166,7 +166,7 @@ function Rayfield:CreateWindow(config)
    Title.Position = UDim2.new(0, 12, 0, 0)
    Title.BackgroundTransparency = 1
    Title.Text = WindowName
-   Title.TextColor3 = RayfieldTheme.TextColor
+   Title.TextColor3 = Theme.TextColor
    Title.TextSize = 15
    Title.Font = Enum.Font.GothamBold
    Title.TextXAlignment = Enum.TextXAlignment.Left
@@ -178,16 +178,18 @@ function Rayfield:CreateWindow(config)
    CloseButton.Position = UDim2.new(1, -30, 0.5, -9)
    CloseButton.BackgroundTransparency = 1
    CloseButton.Image = "rbxassetid://7733717447"
-   CloseButton.ImageColor3 = RayfieldTheme.TextColor
+   CloseButton.ImageColor3 = Theme.TextColor
    CloseButton.Parent = Topbar
    
    -- Tab Container
-   local TabContainer = Instance.new("Frame")
-   TabContainer.Name = "TabContainer"
+   local TabContainer = Instance.new("ScrollingFrame")
    TabContainer.Size = UDim2.new(0, 155, 1, -52)
    TabContainer.Position = UDim2.new(0, 5, 0, 47)
-   TabContainer.BackgroundColor3 = RayfieldTheme.TabBackground
+   TabContainer.BackgroundColor3 = Theme.TabBackground
    TabContainer.BorderSizePixel = 0
+   TabContainer.ScrollBarThickness = 0
+   TabContainer.CanvasSize = UDim2.new(0, 0, 0, 0)
+   TabContainer.AutomaticCanvasSize = Enum.AutomaticSize.Y
    TabContainer.Parent = Main
    
    local TabContainerCorner = Instance.new("UICorner")
@@ -196,7 +198,6 @@ function Rayfield:CreateWindow(config)
    
    local TabList = Instance.new("UIListLayout")
    TabList.Padding = UDim.new(0, 3)
-   TabList.SortOrder = Enum.SortOrder.LayoutOrder
    TabList.Parent = TabContainer
    
    local TabPadding = Instance.new("UIPadding")
@@ -207,26 +208,26 @@ function Rayfield:CreateWindow(config)
    
    -- Content Container
    local ContentContainer = Instance.new("Frame")
-   ContentContainer.Name = "ContentContainer"
    ContentContainer.Size = UDim2.new(1, -170, 1, -52)
    ContentContainer.Position = UDim2.new(0, 165, 0, 47)
    ContentContainer.BackgroundTransparency = 1
    ContentContainer.Parent = Main
    
-   -- Mini Button
-   local MiniButton = Instance.new("TextButton")
-   MiniButton.Name = "MiniButton"
-   MiniButton.Size = UDim2.new(0, 50, 0, 50)
-   MiniButton.Position = UDim2.new(1, -60, 0.95, -60)
+   -- Mini Button with CUSTOM LOGO
+   local MiniButton = Instance.new("ImageButton")
+   MiniButton.Size = UDim2.new(0, 60, 0, 60)
+   MiniButton.Position = UDim2.new(1, -70, 0.95, -70)
    MiniButton.BackgroundColor3 = Color3.fromRGB(0, 125, 255)
    MiniButton.BorderSizePixel = 0
-   MiniButton.Text = ""
+   MiniButton.Image = LOGO_IMAGE  -- CUSTOM LOGO HERE!
+   MiniButton.ScaleType = Enum.ScaleType.Fit
+   MiniButton.ImageColor3 = Color3.fromRGB(255, 255, 255)
    MiniButton.Visible = false
    MiniButton.AutoButtonColor = false
    MiniButton.Parent = ScreenGui
    
    local MiniCorner = Instance.new("UICorner")
-   MiniCorner.CornerRadius = UDim.new(1, 0)
+   MiniCorner.CornerRadius = UDim.new(0, 12)
    MiniCorner.Parent = MiniButton
    
    local MiniStroke = Instance.new("UIStroke")
@@ -234,30 +235,21 @@ function Rayfield:CreateWindow(config)
    MiniStroke.Thickness = 2
    MiniStroke.Parent = MiniButton
    
-   local MiniIcon = Instance.new("TextLabel")
-   MiniIcon.Size = UDim2.new(1, 0, 1, 0)
-   MiniIcon.BackgroundTransparency = 1
-   MiniIcon.Text = string.sub(WindowName, 1, 1)
-   MiniIcon.TextColor3 = Color3.fromRGB(255, 255, 255)
-   MiniIcon.TextSize = 20
-   MiniIcon.Font = Enum.Font.GothamBold
-   MiniIcon.Parent = MiniButton
-   
-   -- Close Button Functionality
+   -- Close Button
    CloseButton.MouseButton1Click:Connect(function()
-      Tween(Main, {Size = UDim2.new(0, 0, 0, 0)}, RayfieldAnimations.Back)
+      Tween(Main, {Size = UDim2.new(0, 0, 0, 0)}, Animations.Back)
       task.wait(0.5)
       Main.Visible = false
       
       MiniButton.Visible = true
       MiniButton.Size = UDim2.new(0, 0, 0, 0)
-      Tween(MiniButton, {Size = UDim2.new(0, 50, 0, 50)}, RayfieldAnimations.Back)
+      Tween(MiniButton, {Size = UDim2.new(0, 60, 0, 60)}, Animations.Back)
       
       task.spawn(function()
          while MiniButton.Visible do
-            Tween(MiniButton, {Size = UDim2.new(0, 54, 0, 54)}, RayfieldAnimations.Quart)
+            Tween(MiniButton, {Size = UDim2.new(0, 65, 0, 65)}, Animations.Quart)
             task.wait(1)
-            Tween(MiniButton, {Size = UDim2.new(0, 50, 0, 50)}, RayfieldAnimations.Quart)
+            Tween(MiniButton, {Size = UDim2.new(0, 60, 0, 60)}, Animations.Quart)
             task.wait(1)
          end
       end)
@@ -265,89 +257,76 @@ function Rayfield:CreateWindow(config)
    
    -- Mini Button Click
    MiniButton.MouseButton1Click:Connect(function()
-      Tween(MiniButton, {Size = UDim2.new(0, 0, 0, 0)}, RayfieldAnimations.Quart)
+      Tween(MiniButton, {Size = UDim2.new(0, 0, 0, 0)}, Animations.Quart)
       task.wait(0.3)
       MiniButton.Visible = false
       
       Main.Visible = true
-      Tween(Main, {Size = UDim2.new(0, 500, 0, 475)}, RayfieldAnimations.Back)
+      Tween(Main, {Size = UDim2.new(0, 500, 0, 475)}, Animations.Back)
    end)
    
    -- Mini Button Hover
    MiniButton.MouseEnter:Connect(function()
-      Tween(MiniButton, {BackgroundColor3 = Color3.fromRGB(0, 140, 255)}, RayfieldAnimations.Quart)
+      Tween(MiniButton, {BackgroundColor3 = Color3.fromRGB(0, 140, 255)}, Animations.Quart)
+      Tween(MiniButton, {Size = UDim2.new(0, 68, 0, 68)}, Animations.Quart)
    end)
    
    MiniButton.MouseLeave:Connect(function()
-      Tween(MiniButton, {BackgroundColor3 = Color3.fromRGB(0, 125, 255)}, RayfieldAnimations.Quart)
+      Tween(MiniButton, {BackgroundColor3 = Color3.fromRGB(0, 125, 255)}, Animations.Quart)
+      Tween(MiniButton, {Size = UDim2.new(0, 60, 0, 60)}, Animations.Quart)
    end)
    
    -- Draggable
    MakeDraggable(Main, Topbar)
    MakeDraggable(MiniButton)
    
-   -- Entrance Animation
-   Tween(Main, {Size = UDim2.new(0, 500, 0, 475)}, RayfieldAnimations.Back)
+   -- Entrance
+   Tween(Main, {Size = UDim2.new(0, 500, 0, 475)}, Animations.Back)
    
    task.wait(0.6)
    Rayfield:Notify({
       Title = "Welcome!",
-      Content = WindowName .. " has loaded successfully",
+      Content = WindowName .. " loaded successfully",
       Duration = 3
    })
    
-   local Window = {
+   return {
       Main = Main,
       ContentContainer = ContentContainer,
       TabContainer = TabContainer,
       Tabs = {},
       CurrentTab = nil
    }
-   
-   return Window
 end
 
 function Rayfield:CreateTab(Window, config)
    local TabName = config.Name or "Tab"
-   local TabIcon = config.Icon or 4483362458
    
-   -- Tab Button
    local TabButton = Instance.new("TextButton")
-   TabButton.Name = TabName
    TabButton.Size = UDim2.new(1, 0, 0, 32)
-   TabButton.BackgroundColor3 = RayfieldTheme.ElementBackground
+   TabButton.BackgroundColor3 = Theme.ElementBackground
    TabButton.BackgroundTransparency = 1
    TabButton.BorderSizePixel = 0
    TabButton.Text = ""
    TabButton.AutoButtonColor = false
    TabButton.Parent = Window.TabContainer
    
-   local TabButtonCorner = Instance.new("UICorner")
-   TabButtonCorner.CornerRadius = UDim.new(0, 5)
-   TabButtonCorner.Parent = TabButton
-   
-   local TabIcon = Instance.new("ImageLabel")
-   TabIcon.Size = UDim2.new(0, 20, 0, 20)
-   TabIcon.Position = UDim2.new(0, 8, 0.5, -10)
-   TabIcon.BackgroundTransparency = 1
-   TabIcon.Image = "rbxassetid://" .. TabIcon
-   TabIcon.ImageColor3 = RayfieldTheme.TextDark
-   TabIcon.Parent = TabButton
+   local TabCorner = Instance.new("UICorner")
+   TabCorner.CornerRadius = UDim.new(0, 5)
+   TabCorner.Parent = TabButton
    
    local TabTitle = Instance.new("TextLabel")
-   TabTitle.Size = UDim2.new(1, -40, 1, 0)
-   TabTitle.Position = UDim2.new(0, 35, 0, 0)
+   TabTitle.Size = UDim2.new(1, -20, 1, 0)
+   TabTitle.Position = UDim2.new(0, 10, 0, 0)
    TabTitle.BackgroundTransparency = 1
    TabTitle.Text = TabName
-   TabTitle.TextColor3 = RayfieldTheme.TextDark
+   TabTitle.TextColor3 = Theme.TextDark
    TabTitle.TextSize = 13
    TabTitle.Font = Enum.Font.GothamMedium
    TabTitle.TextXAlignment = Enum.TextXAlignment.Left
    TabTitle.Parent = TabButton
    
-   -- Tab Content
    local TabContent = Instance.new("ScrollingFrame")
-   TabContent.Name = TabName .. "Content"
    TabContent.Size = UDim2.new(1, -10, 1, -10)
    TabContent.Position = UDim2.new(0, 5, 0, 5)
    TabContent.BackgroundTransparency = 1
@@ -361,7 +340,6 @@ function Rayfield:CreateTab(Window, config)
    
    local ContentList = Instance.new("UIListLayout")
    ContentList.Padding = UDim.new(0, 8)
-   ContentList.SortOrder = Enum.SortOrder.LayoutOrder
    ContentList.Parent = TabContent
    
    local ContentPadding = Instance.new("UIPadding")
@@ -370,18 +348,15 @@ function Rayfield:CreateTab(Window, config)
    ContentPadding.PaddingTop = UDim.new(0, 5)
    ContentPadding.Parent = TabContent
    
-   -- Select Tab Function
    local function SelectTab()
       for _, tab in pairs(Window.Tabs) do
          tab.Button.BackgroundTransparency = 1
-         tab.Icon.ImageColor3 = RayfieldTheme.TextDark
-         tab.Title.TextColor3 = RayfieldTheme.TextDark
+         tab.Title.TextColor3 = Theme.TextDark
          tab.Content.Visible = false
       end
       
-      Tween(TabButton, {BackgroundTransparency = 0}, RayfieldAnimations.Quart)
-      Tween(TabIcon, {ImageColor3 = Color3.fromRGB(0, 125, 255)}, RayfieldAnimations.Quart)
-      Tween(TabTitle, {TextColor3 = RayfieldTheme.TextColor}, RayfieldAnimations.Quart)
+      Tween(TabButton, {BackgroundTransparency = 0}, Animations.Quart)
+      Tween(TabTitle, {TextColor3 = Theme.TextColor}, Animations.Quart)
       TabContent.Visible = true
       Window.CurrentTab = TabName
    end
@@ -390,19 +365,18 @@ function Rayfield:CreateTab(Window, config)
    
    TabButton.MouseEnter:Connect(function()
       if Window.CurrentTab ~= TabName then
-         Tween(TabButton, {BackgroundTransparency = 0.5}, RayfieldAnimations.Quart)
+         Tween(TabButton, {BackgroundTransparency = 0.5}, Animations.Quart)
       end
    end)
    
    TabButton.MouseLeave:Connect(function()
       if Window.CurrentTab ~= TabName then
-         Tween(TabButton, {BackgroundTransparency = 1}, RayfieldAnimations.Quart)
+         Tween(TabButton, {BackgroundTransparency = 1}, Animations.Quart)
       end
    end)
    
    local Tab = {
       Button = TabButton,
-      Icon = TabIcon,
       Title = TabTitle,
       Content = TabContent,
       Select = SelectTab
@@ -420,7 +394,7 @@ end
 function Rayfield:CreateButton(Tab, config)
    local ButtonFrame = Instance.new("Frame")
    ButtonFrame.Size = UDim2.new(1, 0, 0, 35)
-   ButtonFrame.BackgroundColor3 = RayfieldTheme.ElementBackground
+   ButtonFrame.BackgroundColor3 = Theme.ElementBackground
    ButtonFrame.BorderSizePixel = 0
    ButtonFrame.Parent = Tab.Content
    
@@ -429,9 +403,8 @@ function Rayfield:CreateButton(Tab, config)
    ButtonCorner.Parent = ButtonFrame
    
    local ButtonStroke = Instance.new("UIStroke")
-   ButtonStroke.Color = RayfieldTheme.ElementStroke
+   ButtonStroke.Color = Theme.ElementStroke
    ButtonStroke.Thickness = 1
-   ButtonStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
    ButtonStroke.Parent = ButtonFrame
    
    local Button = Instance.new("TextButton")
@@ -445,38 +418,36 @@ function Rayfield:CreateButton(Tab, config)
    ButtonTitle.Position = UDim2.new(0, 10, 0, 0)
    ButtonTitle.BackgroundTransparency = 1
    ButtonTitle.Text = config.Name or "Button"
-   ButtonTitle.TextColor3 = RayfieldTheme.TextColor
+   ButtonTitle.TextColor3 = Theme.TextColor
    ButtonTitle.TextSize = 13
    ButtonTitle.Font = Enum.Font.Gotham
    ButtonTitle.TextXAlignment = Enum.TextXAlignment.Left
    ButtonTitle.Parent = ButtonFrame
    
    Button.MouseEnter:Connect(function()
-      Tween(ButtonFrame, {BackgroundColor3 = RayfieldTheme.ElementBackgroundHover}, RayfieldAnimations.Quart)
+      Tween(ButtonFrame, {BackgroundColor3 = Theme.ElementBackgroundHover}, Animations.Quart)
    end)
    
    Button.MouseLeave:Connect(function()
-      Tween(ButtonFrame, {BackgroundColor3 = RayfieldTheme.ElementBackground}, RayfieldAnimations.Quart)
+      Tween(ButtonFrame, {BackgroundColor3 = Theme.ElementBackground}, Animations.Quart)
    end)
    
    Button.MouseButton1Click:Connect(function()
-      local OriginalSize = ButtonFrame.Size
-      Tween(ButtonFrame, {Size = UDim2.new(OriginalSize.X.Scale, OriginalSize.X.Offset, 0, 32)}, RayfieldAnimations.Quart)
+      local Size = ButtonFrame.Size
+      Tween(ButtonFrame, {Size = UDim2.new(Size.X.Scale, Size.X.Offset, 0, 32)}, Animations.Quart)
       task.wait(0.1)
-      Tween(ButtonFrame, {Size = OriginalSize}, RayfieldAnimations.Quart)
+      Tween(ButtonFrame, {Size = Size}, Animations.Quart)
       
       if config.Callback then
          pcall(config.Callback)
       end
    end)
-   
-   return ButtonFrame
 end
 
 function Rayfield:CreateToggle(Tab, config)
    local ToggleFrame = Instance.new("Frame")
    ToggleFrame.Size = UDim2.new(1, 0, 0, 35)
-   ToggleFrame.BackgroundColor3 = RayfieldTheme.ElementBackground
+   ToggleFrame.BackgroundColor3 = Theme.ElementBackground
    ToggleFrame.BorderSizePixel = 0
    ToggleFrame.Parent = Tab.Content
    
@@ -485,9 +456,8 @@ function Rayfield:CreateToggle(Tab, config)
    ToggleCorner.Parent = ToggleFrame
    
    local ToggleStroke = Instance.new("UIStroke")
-   ToggleStroke.Color = RayfieldTheme.ElementStroke
+   ToggleStroke.Color = Theme.ElementStroke
    ToggleStroke.Thickness = 1
-   ToggleStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
    ToggleStroke.Parent = ToggleFrame
    
    local ToggleTitle = Instance.new("TextLabel")
@@ -495,7 +465,7 @@ function Rayfield:CreateToggle(Tab, config)
    ToggleTitle.Position = UDim2.new(0, 10, 0, 0)
    ToggleTitle.BackgroundTransparency = 1
    ToggleTitle.Text = config.Name or "Toggle"
-   ToggleTitle.TextColor3 = RayfieldTheme.TextColor
+   ToggleTitle.TextColor3 = Theme.TextColor
    ToggleTitle.TextSize = 13
    ToggleTitle.Font = Enum.Font.Gotham
    ToggleTitle.TextXAlignment = Enum.TextXAlignment.Left
@@ -504,233 +474,197 @@ function Rayfield:CreateToggle(Tab, config)
    local ToggleButton = Instance.new("TextButton")
    ToggleButton.Size = UDim2.new(0, 40, 0, 20)
    ToggleButton.Position = UDim2.new(1, -45, 0.5, -10)
-   ToggleButton.BackgroundColor3 = RayfieldTheme.ToggleBackground
+   ToggleButton.BackgroundColor3 = Theme.ToggleBackground
    ToggleButton.BorderSizePixel = 0
    ToggleButton.Text = ""
    ToggleButton.AutoButtonColor = false
    ToggleButton.Parent = ToggleFrame
    
-   local ToggleButtonCorner = Instance.new("UICorner")
-   ToggleButtonCorner.CornerRadius = UDim.new(1, 0)
-   ToggleButtonCorner.Parent = ToggleButton
+   local ToggleCorner2 = Instance.new("UICorner")
+   ToggleCorner2.CornerRadius = UDim.new(1, 0)
+   ToggleCorner2.Parent = ToggleButton
    
-   local ToggleButtonStroke = Instance.new("UIStroke")
-   ToggleButtonStroke.Color = RayfieldTheme.ToggleDisabledStroke
-   ToggleButtonStroke.Thickness = 1
-   ToggleButtonStroke.Parent = ToggleButton
+   local ToggleStroke2 = Instance.new("UIStroke")
+   ToggleStroke2.Color = Theme.ToggleDisabledStroke
+   ToggleStroke2.Thickness = 1
+   ToggleStroke2.Parent = ToggleButton
    
-   local ToggleIndicator = Instance.new("Frame")
-   ToggleIndicator.Size = UDim2.new(0, 16, 0, 16)
-   ToggleIndicator.Position = UDim2.new(0, 2, 0.5, -8)
-   ToggleIndicator.BackgroundColor3 = RayfieldTheme.ToggleDisabled
-   ToggleIndicator.BorderSizePixel = 0
-   ToggleIndicator.Parent = ToggleButton
+   local Indicator = Instance.new("Frame")
+   Indicator.Size = UDim2.new(0, 16, 0, 16)
+   Indicator.Position = UDim2.new(0, 2, 0.5, -8)
+   Indicator.BackgroundColor3 = Theme.ToggleDisabled
+   Indicator.BorderSizePixel = 0
+   Indicator.Parent = ToggleButton
    
    local IndicatorCorner = Instance.new("UICorner")
    IndicatorCorner.CornerRadius = UDim.new(1, 0)
-   IndicatorCorner.Parent = ToggleIndicator
+   IndicatorCorner.Parent = Indicator
    
    local toggled = config.CurrentValue or false
    
-   local function UpdateToggle()
+   local function Update()
       if toggled then
-         Tween(ToggleIndicator, {Position = UDim2.new(1, -18, 0.5, -8), BackgroundColor3 = RayfieldTheme.ToggleEnabled}, RayfieldAnimations.Quart)
-         Tween(ToggleButtonStroke, {Color = RayfieldTheme.ToggleEnabledStroke}, RayfieldAnimations.Quart)
+         Tween(Indicator, {Position = UDim2.new(1, -18, 0.5, -8), BackgroundColor3 = Theme.ToggleEnabled}, Animations.Quart)
+         Tween(ToggleStroke2, {Color = Theme.ToggleEnabledStroke}, Animations.Quart)
       else
-         Tween(ToggleIndicator, {Position = UDim2.new(0, 2, 0.5, -8), BackgroundColor3 = RayfieldTheme.ToggleDisabled}, RayfieldAnimations.Quart)
-         Tween(ToggleButtonStroke, {Color = RayfieldTheme.ToggleDisabledStroke}, RayfieldAnimations.Quart)
+         Tween(Indicator, {Position = UDim2.new(0, 2, 0.5, -8), BackgroundColor3 = Theme.ToggleDisabled}, Animations.Quart)
+         Tween(ToggleStroke2, {Color = Theme.ToggleDisabledStroke}, Animations.Quart)
       end
    end
    
-   UpdateToggle()
+   Update()
    
    ToggleButton.MouseButton1Click:Connect(function()
       toggled = not toggled
-      UpdateToggle()
+      Update()
       if config.Callback then
          pcall(config.Callback, toggled)
       end
    end)
-   
-   return ToggleFrame
 end
 
 function Rayfield:CreateParagraph(Tab, config)
-   local ParagraphFrame = Instance.new("Frame")
-   ParagraphFrame.Size = UDim2.new(1, 0, 0, 0)
-   ParagraphFrame.AutomaticSize = Enum.AutomaticSize.Y
-   ParagraphFrame.BackgroundColor3 = RayfieldTheme.ElementBackground
-   ParagraphFrame.BorderSizePixel = 0
-   ParagraphFrame.Parent = Tab.Content
+   local Frame = Instance.new("Frame")
+   Frame.Size = UDim2.new(1, 0, 0, 0)
+   Frame.AutomaticSize = Enum.AutomaticSize.Y
+   Frame.BackgroundColor3 = Theme.ElementBackground
+   Frame.BorderSizePixel = 0
+   Frame.Parent = Tab.Content
    
-   local ParagraphCorner = Instance.new("UICorner")
-   ParagraphCorner.CornerRadius = UDim.new(0, 5)
-   ParagraphCorner.Parent = ParagraphFrame
+   local Corner = Instance.new("UICorner")
+   Corner.CornerRadius = UDim.new(0, 5)
+   Corner.Parent = Frame
    
-   local ParagraphStroke = Instance.new("UIStroke")
-   ParagraphStroke.Color = RayfieldTheme.ElementStroke
-   ParagraphStroke.Thickness = 1
-   ParagraphStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-   ParagraphStroke.Parent = ParagraphFrame
+   local Stroke = Instance.new("UIStroke")
+   Stroke.Color = Theme.ElementStroke
+   Stroke.Thickness = 1
+   Stroke.Parent = Frame
    
-   local ParagraphPadding = Instance.new("UIPadding")
-   ParagraphPadding.PaddingTop = UDim.new(0, 10)
-   ParagraphPadding.PaddingBottom = UDim.new(0, 10)
-   ParagraphPadding.PaddingLeft = UDim.new(0, 10)
-   ParagraphPadding.PaddingRight = UDim.new(0, 10)
-   ParagraphPadding.Parent = ParagraphFrame
+   local Padding = Instance.new("UIPadding")
+   Padding.PaddingTop = UDim.new(0, 10)
+   Padding.PaddingBottom = UDim.new(0, 10)
+   Padding.PaddingLeft = UDim.new(0, 10)
+   Padding.PaddingRight = UDim.new(0, 10)
+   Padding.Parent = Frame
    
-   local ParagraphTitle = Instance.new("TextLabel")
-   ParagraphTitle.Size = UDim2.new(1, 0, 0, 16)
-   ParagraphTitle.BackgroundTransparency = 1
-   ParagraphTitle.Text = config.Title or "Paragraph"
-   ParagraphTitle.TextColor3 = RayfieldTheme.TextColor
-   ParagraphTitle.TextSize = 13
-   ParagraphTitle.Font = Enum.Font.GothamBold
-   ParagraphTitle.TextXAlignment = Enum.TextXAlignment.Left
-   ParagraphTitle.Parent = ParagraphFrame
+   local Title = Instance.new("TextLabel")
+   Title.Size = UDim2.new(1, 0, 0, 16)
+   Title.BackgroundTransparency = 1
+   Title.Text = config.Title or "Title"
+   Title.TextColor3 = Theme.TextColor
+   Title.TextSize = 13
+   Title.Font = Enum.Font.GothamBold
+   Title.TextXAlignment = Enum.TextXAlignment.Left
+   Title.Parent = Frame
    
-   local ParagraphContent = Instance.new("TextLabel")
-   ParagraphContent.Size = UDim2.new(1, 0, 0, 0)
-   ParagraphContent.Position = UDim2.new(0, 0, 0, 20)
-   ParagraphContent.AutomaticSize = Enum.AutomaticSize.Y
-   ParagraphContent.BackgroundTransparency = 1
-   ParagraphContent.Text = config.Content or "Content"
-   ParagraphContent.TextColor3 = RayfieldTheme.TextDark
-   ParagraphContent.TextSize = 12
-   ParagraphContent.Font = Enum.Font.Gotham
-   ParagraphContent.TextXAlignment = Enum.TextXAlignment.Left
-   ParagraphContent.TextWrapped = true
-   ParagraphContent.Parent = ParagraphFrame
-   
-   return ParagraphFrame
+   local Content = Instance.new("TextLabel")
+   Content.Size = UDim2.new(1, 0, 0, 0)
+   Content.Position = UDim2.new(0, 0, 0, 20)
+   Content.AutomaticSize = Enum.AutomaticSize.Y
+   Content.BackgroundTransparency = 1
+   Content.Text = config.Content or "Content"
+   Content.TextColor3 = Theme.TextDark
+   Content.TextSize = 12
+   Content.Font = Enum.Font.Gotham
+   Content.TextXAlignment = Enum.TextXAlignment.Left
+   Content.TextWrapped = true
+   Content.Parent = Frame
 end
 
 function Rayfield:Notify(config)
-   local NotificationHolder = Instance.new("Frame")
-   NotificationHolder.Size = UDim2.new(0, 300, 0, 75)
-   NotificationHolder.Position = UDim2.new(1, 310, 1, -85)
-   NotificationHolder.BackgroundColor3 = RayfieldTheme.ElementBackground
-   NotificationHolder.BorderSizePixel = 0
+   local Notif = Instance.new("Frame")
+   Notif.Size = UDim2.new(0, 300, 0, 75)
+   Notif.Position = UDim2.new(1, 310, 1, -85)
+   Notif.BackgroundColor3 = Theme.ElementBackground
+   Notif.BorderSizePixel = 0
    
    pcall(function()
-      NotificationHolder.Parent = CoreGui:FindFirstChild("RayfieldUI")
+      Notif.Parent = CoreGui:FindFirstChild("RayfieldUI")
    end)
    
-   if not NotificationHolder.Parent then
-      NotificationHolder.Parent = player.PlayerGui:FindFirstChild("RayfieldUI") or player.PlayerGui
+   if not Notif.Parent then
+      Notif.Parent = player.PlayerGui:FindFirstChild("RayfieldUI") or player.PlayerGui
    end
    
-   local NotificationCorner = Instance.new("UICorner")
-   NotificationCorner.CornerRadius = UDim.new(0, 6)
-   NotificationCorner.Parent = NotificationHolder
+   local Corner = Instance.new("UICorner")
+   Corner.CornerRadius = UDim.new(0, 6)
+   Corner.Parent = Notif
    
-   local NotificationStroke = Instance.new("UIStroke")
-   NotificationStroke.Color = Color3.fromRGB(0, 125, 255)
-   NotificationStroke.Thickness = 1
-   NotificationStroke.Parent = NotificationHolder
+   local Stroke = Instance.new("UIStroke")
+   Stroke.Color = Color3.fromRGB(0, 125, 255)
+   Stroke.Thickness = 1
+   Stroke.Parent = Notif
    
-   local NotificationTitle = Instance.new("TextLabel")
-   NotificationTitle.Size = UDim2.new(1, -20, 0, 18)
-   NotificationTitle.Position = UDim2.new(0, 10, 0, 10)
-   NotificationTitle.BackgroundTransparency = 1
-   NotificationTitle.Text = config.Title or "Notification"
-   NotificationTitle.TextColor3 = RayfieldTheme.TextColor
-   NotificationTitle.TextSize = 14
-   NotificationTitle.Font = Enum.Font.GothamBold
-   NotificationTitle.TextXAlignment = Enum.TextXAlignment.Left
-   NotificationTitle.Parent = NotificationHolder
+   local Title = Instance.new("TextLabel")
+   Title.Size = UDim2.new(1, -20, 0, 18)
+   Title.Position = UDim2.new(0, 10, 0, 10)
+   Title.BackgroundTransparency = 1
+   Title.Text = config.Title or "Notification"
+   Title.TextColor3 = Theme.TextColor
+   Title.TextSize = 14
+   Title.Font = Enum.Font.GothamBold
+   Title.TextXAlignment = Enum.TextXAlignment.Left
+   Title.Parent = Notif
    
-   local NotificationContent = Instance.new("TextLabel")
-   NotificationContent.Size = UDim2.new(1, -20, 0, 37)
-   NotificationContent.Position = UDim2.new(0, 10, 0, 33)
-   NotificationContent.BackgroundTransparency = 1
-   NotificationContent.Text = config.Content or "Content"
-   NotificationContent.TextColor3 = RayfieldTheme.TextDark
-   NotificationContent.TextSize = 12
-   NotificationContent.Font = Enum.Font.Gotham
-   NotificationContent.TextXAlignment = Enum.TextXAlignment.Left
-   NotificationContent.TextWrapped = true
-   NotificationContent.Parent = NotificationHolder
+   local Content = Instance.new("TextLabel")
+   Content.Size = UDim2.new(1, -20, 0, 37)
+   Content.Position = UDim2.new(0, 10, 0, 33)
+   Content.BackgroundTransparency = 1
+   Content.Text = config.Content or "Content"
+   Content.TextColor3 = Theme.TextDark
+   Content.TextSize = 12
+   Content.Font = Enum.Font.Gotham
+   Content.TextXAlignment = Enum.TextXAlignment.Left
+   Content.TextWrapped = true
+   Content.Parent = Notif
    
-   Tween(NotificationHolder, {Position = UDim2.new(1, -310, 1, -85)}, RayfieldAnimations.Quint)
-   
+   Tween(Notif, {Position = UDim2.new(1, -310, 1, -85)}, Animations.Quint)
    task.wait(config.Duration or 3)
-   
-   Tween(NotificationHolder, {Position = UDim2.new(1, 310, 1, -85)}, RayfieldAnimations.Quint)
+   Tween(Notif, {Position = UDim2.new(1, 310, 1, -85)}, Animations.Quint)
    task.wait(0.3)
-   NotificationHolder:Destroy()
+   Notif:Destroy()
 end
 
 -- ============================================
 -- FPS OPTIMIZER
 -- ============================================
 
--- CREATE WINDOW (CUSTOMIZE HERE!)
 local Window = Rayfield:CreateWindow({
-   Name = "FPS Optimizer Pro"  -- CHANGE THIS!
+   Name = "FPS Optimizer Pro"
 })
 
--- CREATE TABS
-local BoostTab = Rayfield:CreateTab(Window, {
-   Name = "Boost",
-   Icon = 4483362458
-})
+local BoostTab = Rayfield:CreateTab(Window, {Name = "⚡ Boost"})
+local GraphicsTab = Rayfield:CreateTab(Window, {Name = "🎨 Graphics"})
+local SystemTab = Rayfield:CreateTab(Window, {Name = "🛠️ System"})
+local InfoTab = Rayfield:CreateTab(Window, {Name = "ℹ️ Info"})
 
-local GraphicsTab = Rayfield:CreateTab(Window, {
-   Name = "Graphics",
-   Icon = 4483362458
-})
-
-local SystemTab = Rayfield:CreateTab(Window, {
-   Name = "System",
-   Icon = 4483362458
-})
-
-local InfoTab = Rayfield:CreateTab(Window, {
-   Name = "Info",
-   Icon = 4483362458
-})
-
--- BOOST TAB
+-- BOOST TAB (WITH CONTENT!)
 Rayfield:CreateParagraph(BoostTab, {
    Title = "Quick Boost Modes",
-   Content = "Select a preset to instantly boost your FPS. All modes are collision-safe!"
+   Content = "Select a preset to instantly boost your FPS. All modes are collision-safe and won't break gameplay!"
 })
 
 Rayfield:CreateButton(BoostTab, {
-   Name = "🚀 Ultra Boost",
+   Name = "🚀 Ultra Boost (Recommended)",
    Callback = function()
       ApplyUltraBoost()
-      Rayfield:Notify({
-         Title = "Ultra Boost",
-         Content = "All optimizations applied!",
-         Duration = 3
-      })
+      Rayfield:Notify({Title = "Ultra Boost", Content = "All optimizations applied!", Duration = 3})
    end
 })
 
 Rayfield:CreateButton(BoostTab, {
-   Name = "🥔 Potato Mode",
+   Name = "🥔 Potato Mode (Low-End PC)",
    Callback = function()
       ApplyPotatoMode()
-      Rayfield:Notify({
-         Title = "Potato Mode",
-         Content = "Maximum FPS activated!",
-         Duration = 3
-      })
+      Rayfield:Notify({Title = "Potato Mode", Content = "Maximum FPS activated!", Duration = 3})
    end
 })
 
 Rayfield:CreateButton(BoostTab, {
-   Name = "⚡ Performance Mode",
+   Name = "⚡ Performance Mode (Balanced)",
    Callback = function()
       ApplyPerformanceMode()
-      Rayfield:Notify({
-         Title = "Performance Mode",
-         Content = "Balanced settings applied!",
-         Duration = 3
-      })
+      Rayfield:Notify({Title = "Performance", Content = "Balanced settings applied!", Duration = 3})
    end
 })
 
@@ -742,10 +676,10 @@ Rayfield:CreateToggle(BoostTab, {
    end
 })
 
--- GRAPHICS TAB
+-- GRAPHICS TAB (WITH CONTENT!)
 Rayfield:CreateParagraph(GraphicsTab, {
    Title = "Visual Optimization",
-   Content = "Toggle individual graphics optimizations"
+   Content = "Toggle individual graphics optimizations to find the perfect balance between FPS and visuals."
 })
 
 Rayfield:CreateToggle(GraphicsTab, {
@@ -754,13 +688,13 @@ Rayfield:CreateToggle(GraphicsTab, {
    Callback = function(value)
       if value then
          RemoveTextures()
-         Rayfield:Notify({Title = "Textures", Content = "Textures removed!", Duration = 2})
+         Rayfield:Notify({Title = "Textures", Content = "All textures removed!", Duration = 2})
       end
    end
 })
 
 Rayfield:CreateToggle(GraphicsTab, {
-   Name = "Remove Particles",
+   Name = "Remove Particles & Effects",
    CurrentValue = false,
    Callback = function(value)
       if value then
@@ -792,14 +726,14 @@ Rayfield:CreateToggle(GraphicsTab, {
    end
 })
 
--- SYSTEM TAB
+-- SYSTEM TAB (WITH CONTENT!)
 Rayfield:CreateParagraph(SystemTab, {
    Title = "Memory & Performance",
-   Content = "Optimize system resources"
+   Content = "Optimize system resources and clean up memory to reduce lag and improve stability."
 })
 
 Rayfield:CreateButton(SystemTab, {
-   Name = "Clear Memory",
+   Name = "🧹 Clear Memory Cache",
    Callback = function()
       ClearMemory()
       Rayfield:Notify({Title = "Memory", Content = "Cache cleared!", Duration = 2})
@@ -807,15 +741,15 @@ Rayfield:CreateButton(SystemTab, {
 })
 
 Rayfield:CreateButton(SystemTab, {
-   Name = "Remove Unused Assets",
+   Name = "🗑️ Remove Unused Assets",
    Callback = function()
       RemoveUnusedAssets()
-      Rayfield:Notify({Title = "Assets", Content = "Assets removed!", Duration = 2})
+      Rayfield:Notify({Title = "Assets", Content = "Unused assets removed!", Duration = 2})
    end
 })
 
 Rayfield:CreateButton(SystemTab, {
-   Name = "Optimize Workspace",
+   Name = "⚙️ Optimize Workspace",
    Callback = function()
       OptimizeWorkspace()
       Rayfield:Notify({Title = "Workspace", Content = "Workspace optimized!", Duration = 2})
@@ -823,35 +757,35 @@ Rayfield:CreateButton(SystemTab, {
 })
 
 Rayfield:CreateButton(SystemTab, {
-   Name = "Fix Physics",
+   Name = "🔧 Fix Physics Lag",
    Callback = function()
       FixPhysics()
       Rayfield:Notify({Title = "Physics", Content = "Physics optimized!", Duration = 2})
    end
 })
 
--- INFO TAB
+-- INFO TAB (WITH CONTENT!)
 Rayfield:CreateParagraph(InfoTab, {
-   Title = "FPS Optimizer",
-   Content = "Universal FPS optimization tool for all Roblox games"
+   Title = "About FPS Optimizer",
+   Content = "Universal FPS optimization tool for all Roblox games. Boost performance, reduce lag, and optimize rendering!"
 })
 
 Rayfield:CreateParagraph(InfoTab, {
-   Title = "Low-End PC",
-   Content = "Use Potato Mode for maximum FPS boost"
+   Title = "🎮 Low-End PC",
+   Content = "Use Potato Mode for maximum FPS boost. Removes all visual effects."
 })
 
 Rayfield:CreateParagraph(InfoTab, {
-   Title = "Mid-Range PC",
-   Content = "Use Performance Mode for balanced quality"
+   Title = "💻 Mid-Range PC",
+   Content = "Use Performance Mode for balanced quality. Keeps some visuals while boosting FPS."
 })
 
 Rayfield:CreateParagraph(InfoTab, {
-   Title = "High-End PC",
-   Content = "Remove shadows only to maintain visuals"
+   Title = "🖥️ High-End PC",
+   Content = "Remove shadows only to maintain visual quality while still getting an FPS boost."
 })
 
--- OPTIMIZATION FUNCTIONS
+-- FUNCTIONS
 function ApplyUltraBoost()
    print("⚡ Ultra Boost")
    RemoveTextures()
@@ -880,7 +814,7 @@ function ApplyPotatoMode()
 end
 
 function ApplyPerformanceMode()
-   print("⚡ Performance Mode")
+   print("⚡ Performance")
    RemoveShadows(true)
    RemoveFog(true)
    RemoveParticles()
@@ -1048,7 +982,9 @@ function ShowFPSCounter(enabled)
    end
 end
 
-print("\n✅ FLUX UI - RAYFIELD STYLE LOADED!")
-print("🎨 Design & Animations from Rayfield")
-print("💡 Change name at line 486")
+print("\n✅ FPS OPTIMIZER LOADED!")
+print("🎨 Rayfield Style with Custom Logo")
+print("📌 Upload logo to imgur/catbox")
+print("💡 Change LOGO_IMAGE at line 25")
+print("💡 Change window name at line 602")
 print(string.rep("=", 70) .. "\n")
