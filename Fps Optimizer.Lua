@@ -26,7 +26,7 @@ print(string.rep("=", 70) .. "\n")
 -- 3. Or use Asset ID if uploaded to Roblox
 local LOGO_IMAGE = "rbxassetid://YOUR_ASSET_ID_HERE"  -- CHANGE THIS!
 -- Or use direct URL:
--- local LOGO_IMAGE = "https://i.imgur.com/YOUR_IMAGE.png"
+-- local LOGO_IMAGE = "https://create.roblox.com/store/asset/112653532744867"
 
 -- Rayfield Colors
 local Theme = {
@@ -630,7 +630,7 @@ end
 -- ============================================
 
 local Window = Rayfield:CreateWindow({
-   Name = "FPS Optimizer Pro"
+   Name = "Nyemek HuB FPS Optimizer"
 })
 
 local BoostTab = Rayfield:CreateTab(Window, {Name = "⚡ Boost"})
