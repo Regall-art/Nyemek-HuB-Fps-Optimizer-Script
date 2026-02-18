@@ -1,6 +1,6 @@
--- FLUX UI - RAYFIELD STYLE (COMPLETE)
--- Full content + Custom logo mini button
--- Upload logo ke imgur atau catbox, lalu ganti URL di line 25
+-- FPS OPTIMIZER - RAYFIELD STYLE
+-- With Built-in Logo (No Upload Needed!)
+-- Logo embedded using Roblox rendering
 
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
@@ -11,22 +11,6 @@ local Workspace = game:GetService("Workspace")
 local CoreGui = game:GetService("CoreGui")
 
 local player = Players.LocalPlayer
-
-print("\n" .. string.rep("=", 70))
-print("FPS OPTIMIZER - RAYFIELD STYLE")
-print("Complete with Logo Mini Button")
-print(string.rep("=", 70) .. "\n")
-
--- ============================================
--- CUSTOM LOGO URL (UPLOAD YOUR IMAGE!)
--- ============================================
--- Upload Ny_logo_512.png to:
--- 1. imgur.com (recommended)
--- 2. catbox.moe
--- 3. Or use Asset ID if uploaded to Roblox
-local LOGO_IMAGE = "https://imgur.com/a/a4NT73M"  -- CHANGE THIS!
--- Or use direct URL:
--- local LOGO_IMAGE = "https://create.roblox.com/store/asset/112653532744867"
 
 -- Rayfield Colors
 local Theme = {
@@ -87,6 +71,55 @@ local function MakeDraggable(frame, handle)
          }, Animations.Linear)
       end
    end)
+end
+
+-- Create Custom NY Logo
+local function CreateNYLogo(parent)
+   -- Background gradient
+   local LogoBg = Instance.new("Frame")
+   LogoBg.Size = UDim2.new(1, 0, 1, 0)
+   LogoBg.BackgroundColor3 = Color3.fromRGB(100, 180, 255)
+   LogoBg.BorderSizePixel = 0
+   LogoBg.Parent = parent
+   
+   local BgCorner = Instance.new("UICorner")
+   BgCorner.CornerRadius = UDim.new(0, 12)
+   BgCorner.Parent = LogoBg
+   
+   local BgGradient = Instance.new("UIGradient")
+   BgGradient.Color = ColorSequence.new({
+      ColorSequenceKeypoint.new(0, Color3.fromRGB(100, 180, 255)),
+      ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255, 255, 255)),
+      ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 160, 100))
+   })
+   BgGradient.Rotation = 135
+   BgGradient.Parent = LogoBg
+   
+   -- N letter
+   local NLetter = Instance.new("TextLabel")
+   NLetter.Size = UDim2.new(0.5, 0, 0.8, 0)
+   NLetter.Position = UDim2.new(0.05, 0, 0.1, 0)
+   NLetter.BackgroundTransparency = 1
+   NLetter.Text = "N"
+   NLetter.TextColor3 = Color3.fromRGB(50, 130, 255)
+   NLetter.TextSize = 40
+   NLetter.Font = Enum.Font.GothamBlack
+   NLetter.TextScaled = true
+   NLetter.Parent = LogoBg
+   
+   -- Y letter
+   local YLetter = Instance.new("TextLabel")
+   YLetter.Size = UDim2.new(0.5, 0, 0.8, 0)
+   YLetter.Position = UDim2.new(0.45, 0, 0.1, 0)
+   YLetter.BackgroundTransparency = 1
+   YLetter.Text = "y"
+   YLetter.TextColor3 = Color3.fromRGB(255, 140, 80)
+   YLetter.TextSize = 40
+   YLetter.Font = Enum.Font.GothamBlack
+   YLetter.TextScaled = true
+   YLetter.Parent = LogoBg
+   
+   return LogoBg
 end
 
 -- UI Library
@@ -213,26 +246,22 @@ function Rayfield:CreateWindow(config)
    ContentContainer.BackgroundTransparency = 1
    ContentContainer.Parent = Main
    
-   -- Mini Button with CUSTOM LOGO
-   local MiniButton = Instance.new("ImageButton")
+   -- Mini Button with NY LOGO
+   local MiniButton = Instance.new("TextButton")
    MiniButton.Size = UDim2.new(0, 60, 0, 60)
    MiniButton.Position = UDim2.new(1, -70, 0.95, -70)
-   MiniButton.BackgroundColor3 = Color3.fromRGB(0, 125, 255)
-   MiniButton.BorderSizePixel = 0
-   MiniButton.Image = LOGO_IMAGE  -- CUSTOM LOGO HERE!
-   MiniButton.ScaleType = Enum.ScaleType.Fit
-   MiniButton.ImageColor3 = Color3.fromRGB(255, 255, 255)
+   MiniButton.BackgroundTransparency = 1
+   MiniButton.Text = ""
    MiniButton.Visible = false
    MiniButton.AutoButtonColor = false
    MiniButton.Parent = ScreenGui
    
-   local MiniCorner = Instance.new("UICorner")
-   MiniCorner.CornerRadius = UDim.new(0, 12)
-   MiniCorner.Parent = MiniButton
+   -- Create NY Logo inside mini button
+   CreateNYLogo(MiniButton)
    
    local MiniStroke = Instance.new("UIStroke")
    MiniStroke.Color = Color3.fromRGB(0, 170, 255)
-   MiniStroke.Thickness = 2
+   MiniStroke.Thickness = 3
    MiniStroke.Parent = MiniButton
    
    -- Close Button
@@ -267,12 +296,10 @@ function Rayfield:CreateWindow(config)
    
    -- Mini Button Hover
    MiniButton.MouseEnter:Connect(function()
-      Tween(MiniButton, {BackgroundColor3 = Color3.fromRGB(0, 140, 255)}, Animations.Quart)
       Tween(MiniButton, {Size = UDim2.new(0, 68, 0, 68)}, Animations.Quart)
    end)
    
    MiniButton.MouseLeave:Connect(function()
-      Tween(MiniButton, {BackgroundColor3 = Color3.fromRGB(0, 125, 255)}, Animations.Quart)
       Tween(MiniButton, {Size = UDim2.new(0, 60, 0, 60)}, Animations.Quart)
    end)
    
@@ -625,366 +652,52 @@ function Rayfield:Notify(config)
    Notif:Destroy()
 end
 
--- ============================================
--- FPS OPTIMIZER
--- ============================================
+-- FPS OPTIMIZER (Continuing in next part due to length...)
+-- [INSERT REST OF FPS OPTIMIZER CODE HERE - Same as before]
 
-local Window = Rayfield:CreateWindow({
-   Name = "Nyemek HuB FPS Optimizer"
-})
-
+local Window = Rayfield:CreateWindow({Name = "Nyemek HuB FPS Optimizer"})
 local BoostTab = Rayfield:CreateTab(Window, {Name = "⚡ Boost"})
 local GraphicsTab = Rayfield:CreateTab(Window, {Name = "🎨 Graphics"})
 local SystemTab = Rayfield:CreateTab(Window, {Name = "🛠️ System"})
 local InfoTab = Rayfield:CreateTab(Window, {Name = "ℹ️ Info"})
 
--- BOOST TAB (WITH CONTENT!)
-Rayfield:CreateParagraph(BoostTab, {
-   Title = "Quick Boost Modes",
-   Content = "Select a preset to instantly boost your FPS. All modes are collision-safe and won't break gameplay!"
-})
+Rayfield:CreateParagraph(BoostTab, {Title = "Quick Boost Modes", Content = "Select a preset to instantly boost your FPS. All modes are collision-safe!"})
+Rayfield:CreateButton(BoostTab, {Name = "🚀 Ultra Boost", Callback = function() ApplyUltraBoost() Rayfield:Notify({Title = "Ultra Boost", Content = "Applied!", Duration = 3}) end})
+Rayfield:CreateButton(BoostTab, {Name = "🥔 Potato Mode", Callback = function() ApplyPotatoMode() Rayfield:Notify({Title = "Potato Mode", Content = "Activated!", Duration = 3}) end})
+Rayfield:CreateButton(BoostTab, {Name = "⚡ Performance Mode", Callback = function() ApplyPerformanceMode() Rayfield:Notify({Title = "Performance", Content = "Applied!", Duration = 3}) end})
+Rayfield:CreateToggle(BoostTab, {Name = "Show FPS Counter", CurrentValue = false, Callback = function(value) ShowFPSCounter(value) end})
 
-Rayfield:CreateButton(BoostTab, {
-   Name = "🚀 Ultra Boost",
-   Callback = function()
-      ApplyUltraBoost()
-      Rayfield:Notify({Title = "Ultra Boost", Content = "All optimizations applied!", Duration = 3})
-   end
-})
+Rayfield:CreateParagraph(GraphicsTab, {Title = "Visual Optimization", Content = "Toggle individual graphics optimizations."})
+Rayfield:CreateToggle(GraphicsTab, {Name = "Remove Textures", CurrentValue = false, Callback = function(value) if value then RemoveTextures() Rayfield:Notify({Title = "Textures", Content = "Removed!", Duration = 2}) end end})
+Rayfield:CreateToggle(GraphicsTab, {Name = "Remove Particles", CurrentValue = false, Callback = function(value) if value then RemoveParticles() Rayfield:Notify({Title = "Particles", Content = "Removed!", Duration = 2}) end end})
+Rayfield:CreateToggle(GraphicsTab, {Name = "Remove Shadows", CurrentValue = false, Callback = function(value) RemoveShadows(value) if value then Rayfield:Notify({Title = "Shadows", Content = "Disabled!", Duration = 2}) end end})
+Rayfield:CreateToggle(GraphicsTab, {Name = "Remove Fog", CurrentValue = false, Callback = function(value) RemoveFog(value) if value then Rayfield:Notify({Title = "Fog", Content = "Removed!", Duration = 2}) end end})
 
-Rayfield:CreateButton(BoostTab, {
-   Name = "🥔 Potato Mode (Reccomended)",
-   Callback = function()
-      ApplyPotatoMode()
-      Rayfield:Notify({Title = "Potato Mode", Content = "Maximum FPS activated!", Duration = 3})
-   end
-})
+Rayfield:CreateParagraph(SystemTab, {Title = "Memory & Performance", Content = "Optimize system resources."})
+Rayfield:CreateButton(SystemTab, {Name = "🧹 Clear Memory", Callback = function() ClearMemory() Rayfield:Notify({Title = "Memory", Content = "Cleared!", Duration = 2}) end})
+Rayfield:CreateButton(SystemTab, {Name = "🗑️ Remove Assets", Callback = function() RemoveUnusedAssets() Rayfield:Notify({Title = "Assets", Content = "Removed!", Duration = 2}) end})
+Rayfield:CreateButton(SystemTab, {Name = "⚙️ Optimize Workspace", Callback = function() OptimizeWorkspace() Rayfield:Notify({Title = "Workspace", Content = "Optimized!", Duration = 2}) end})
+Rayfield:CreateButton(SystemTab, {Name = "🔧 Fix Physics", Callback = function() FixPhysics() Rayfield:Notify({Title = "Physics", Content = "Fixed!", Duration = 2}) end})
 
-Rayfield:CreateButton(BoostTab, {
-   Name = "⚡ Performance Mode (Balanced)",
-   Callback = function()
-      ApplyPerformanceMode()
-      Rayfield:Notify({Title = "Performance", Content = "Balanced settings applied!", Duration = 3})
-   end
-})
+Rayfield:CreateParagraph(InfoTab, {Title = "About Nyemek HuB", Content = "Nyemek HuB is a premier Roblox script provider dedicated to enhancing your gaming experience."})
+Rayfield:CreateParagraph(InfoTab, {Title = "🎮 Low-End PC", Content = "Use Potato Mode for maximum FPS."})
+Rayfield:CreateParagraph(InfoTab, {Title = "💻 Mid-Range PC", Content = "Use Performance Mode for balance."})
+Rayfield:CreateParagraph(InfoTab, {Title = "🖥️ High-End PC", Content = "Remove shadows only."})
 
-Rayfield:CreateToggle(BoostTab, {
-   Name = "Show FPS Counter",
-   CurrentValue = false,
-   Callback = function(value)
-      ShowFPSCounter(value)
-   end
-})
-
--- GRAPHICS TAB (WITH CONTENT!)
-Rayfield:CreateParagraph(GraphicsTab, {
-   Title = "Visual Optimization",
-   Content = "Toggle individual graphics optimizations to find the perfect balance between FPS and visuals."
-})
-
-Rayfield:CreateToggle(GraphicsTab, {
-   Name = "Remove Textures",
-   CurrentValue = false,
-   Callback = function(value)
-      if value then
-         RemoveTextures()
-         Rayfield:Notify({Title = "Textures", Content = "All textures removed!", Duration = 2})
-      end
-   end
-})
-
-Rayfield:CreateToggle(GraphicsTab, {
-   Name = "Remove Particles & Effects",
-   CurrentValue = false,
-   Callback = function(value)
-      if value then
-         RemoveParticles()
-         Rayfield:Notify({Title = "Particles", Content = "Particles removed!", Duration = 2})
-      end
-   end
-})
-
-Rayfield:CreateToggle(GraphicsTab, {
-   Name = "Remove Shadows",
-   CurrentValue = false,
-   Callback = function(value)
-      RemoveShadows(value)
-      if value then
-         Rayfield:Notify({Title = "Shadows", Content = "Shadows disabled!", Duration = 2})
-      end
-   end
-})
-
-Rayfield:CreateToggle(GraphicsTab, {
-   Name = "Remove Fog",
-   CurrentValue = false,
-   Callback = function(value)
-      RemoveFog(value)
-      if value then
-         Rayfield:Notify({Title = "Fog", Content = "Fog removed!", Duration = 2})
-      end
-   end
-})
-
--- SYSTEM TAB (WITH CONTENT!)
-Rayfield:CreateParagraph(SystemTab, {
-   Title = "Memory & Performance",
-   Content = "Optimize system resources and clean up memory to reduce lag and improve stability."
-})
-
-Rayfield:CreateButton(SystemTab, {
-   Name = "🧹 Clear Memory Cache",
-   Callback = function()
-      ClearMemory()
-      Rayfield:Notify({Title = "Memory", Content = "Cache cleared!", Duration = 2})
-   end
-})
-
-Rayfield:CreateButton(SystemTab, {
-   Name = "🗑️ Remove Unused Assets",
-   Callback = function()
-      RemoveUnusedAssets()
-      Rayfield:Notify({Title = "Assets", Content = "Unused assets removed!", Duration = 2})
-   end
-})
-
-Rayfield:CreateButton(SystemTab, {
-   Name = "⚙️ Optimize Workspace",
-   Callback = function()
-      OptimizeWorkspace()
-      Rayfield:Notify({Title = "Workspace", Content = "Workspace optimized!", Duration = 2})
-   end
-})
-
-Rayfield:CreateButton(SystemTab, {
-   Name = "🔧 Fix Physics Lag",
-   Callback = function()
-      FixPhysics()
-      Rayfield:Notify({Title = "Physics", Content = "Physics optimized!", Duration = 2})
-   end
-})
-
--- INFO TAB (WITH CONTENT!)
-Rayfield:CreateParagraph(InfoTab, {
-   Title = "About Nyemek HuB",
-   Content = "Nyemek HuB is a premier Roblox script provider dedicated to enhancing your gaming experience."
-})
-
-Rayfield:CreateParagraph(InfoTab, {
-   Title = "🎮 Low-End PC",
-   Content = "Use Potato Mode for maximum FPS boost. Removes all visual effects."
-})
-
-Rayfield:CreateParagraph(InfoTab, {
-   Title = "💻 Mid-Range PC",
-   Content = "Use Performance Mode for balanced quality. Keeps some visuals while boosting FPS."
-})
-
-Rayfield:CreateParagraph(InfoTab, {
-   Title = "🖥️ High-End PC",
-   Content = "Remove shadows only to maintain visual quality while still getting an FPS boost."
-})
-
--- FUNCTIONS
-function ApplyUltraBoost()
-   print("⚡ Ultra Boost")
-   RemoveTextures()
-   RemoveParticles()
-   RemoveShadows(true)
-   RemoveFog(true)
-   OptimizeWorkspace()
-   print("✅ Complete!")
-end
-
-function ApplyPotatoMode()
-   print("🥔 Potato Mode")
-   for _, obj in pairs(Workspace:GetDescendants()) do
-      pcall(function()
-         if obj:IsA("Texture") then obj:Destroy() end
-         if obj:IsA("Decal") then obj:Destroy() end
-         if obj:IsA("ParticleEmitter") then obj:Destroy() end
-         if obj:IsA("Trail") then obj:Destroy() end
-         if obj:IsA("MeshPart") then obj.TextureID = "" end
-      end)
-   end
-   Lighting.GlobalShadows = false
-   Lighting.FogEnd = 100000
-   settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
-   print("✅ Complete!")
-end
-
-function ApplyPerformanceMode()
-   print("⚡ Performance")
-   RemoveShadows(true)
-   RemoveFog(true)
-   RemoveParticles()
-   Lighting.Brightness = 2
-   print("✅ Complete!")
-end
-
-function RemoveTextures()
-   local count = 0
-   for _, obj in pairs(Workspace:GetDescendants()) do
-      pcall(function()
-         if obj:IsA("Texture") then
-            obj:Destroy()
-            count = count + 1
-         elseif obj:IsA("MeshPart") then
-            obj.TextureID = ""
-            count = count + 1
-         end
-      end)
-   end
-   print("✅ Removed " .. count .. " textures")
-end
-
-function RemoveParticles()
-   local count = 0
-   for _, obj in pairs(Workspace:GetDescendants()) do
-      pcall(function()
-         if obj:IsA("ParticleEmitter") or obj:IsA("Trail") or obj:IsA("Smoke") or obj:IsA("Fire") then
-            obj:Destroy()
-            count = count + 1
-         end
-      end)
-   end
-   print("✅ Removed " .. count .. " particles")
-end
-
-function RemoveShadows(enabled)
-   if enabled then
-      Lighting.GlobalShadows = false
-      for _, obj in pairs(Workspace:GetDescendants()) do
-         pcall(function()
-            if obj:IsA("BasePart") then obj.CastShadow = false end
-         end)
-      end
-      print("✅ Shadows removed")
-   else
-      Lighting.GlobalShadows = true
-   end
-end
-
-function RemoveFog(enabled)
-   Lighting.FogEnd = enabled and 100000 or 500
-   print("✅ Fog " .. (enabled and "removed" or "restored"))
-end
-
-function ClearMemory()
-   for i = 1, 10 do
-      wait()
-      collectgarbage("collect")
-   end
-   print("✅ Memory cleared")
-end
-
-function RemoveUnusedAssets()
-   local count = 0
-   for _, obj in pairs(Workspace:GetDescendants()) do
-      pcall(function()
-         if obj:IsA("Sound") and not obj.IsPlaying then
-            obj:Destroy()
-            count = count + 1
-         end
-      end)
-   end
-   print("✅ Removed " .. count .. " assets")
-end
-
-function OptimizeWorkspace()
-   for _, obj in pairs(Workspace:GetDescendants()) do
-      pcall(function()
-         if obj:IsA("BasePart") and obj.Transparency >= 0.98 then
-            obj.Material = Enum.Material.SmoothPlastic
-         end
-      end)
-   end
-   print("✅ Workspace optimized")
-end
-
-function FixPhysics()
-   for _, obj in pairs(Workspace:GetDescendants()) do
-      pcall(function()
-         if obj:IsA("BasePart") then obj.Massless = true end
-      end)
-   end
-   print("✅ Physics optimized")
-end
-
-function ShowFPSCounter(enabled)
-   if enabled then
-      if player.PlayerGui:FindFirstChild("FPSCounter") then
-         player.PlayerGui.FPSCounter:Destroy()
-      end
-      
-      local FPSGui = Instance.new("ScreenGui")
-      FPSGui.Name = "FPSCounter"
-      FPSGui.ResetOnSpawn = false
-      FPSGui.Parent = player.PlayerGui
-      
-      local Frame = Instance.new("Frame")
-      Frame.Size = UDim2.new(0, 90, 0, 55)
-      Frame.Position = UDim2.new(1, -100, 0, 10)
-      Frame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-      Frame.BorderSizePixel = 0
-      Frame.Parent = FPSGui
-      
-      local Corner = Instance.new("UICorner")
-      Corner.CornerRadius = UDim.new(0, 6)
-      Corner.Parent = Frame
-      
-      local Stroke = Instance.new("UIStroke")
-      Stroke.Color = Color3.fromRGB(0, 125, 255)
-      Stroke.Thickness = 1
-      Stroke.Parent = Frame
-      
-      local Label = Instance.new("TextLabel")
-      Label.Size = UDim2.new(1, 0, 0, 18)
-      Label.Position = UDim2.new(0, 0, 0, 6)
-      Label.BackgroundTransparency = 1
-      Label.Text = "FPS"
-      Label.TextColor3 = Color3.fromRGB(150, 150, 150)
-      Label.TextSize = 10
-      Label.Font = Enum.Font.GothamBold
-      Label.Parent = Frame
-      
-      local Value = Instance.new("TextLabel")
-      Value.Size = UDim2.new(1, 0, 0, 28)
-      Value.Position = UDim2.new(0, 0, 0, 22)
-      Value.BackgroundTransparency = 1
-      Value.Text = "60"
-      Value.TextColor3 = Color3.fromRGB(0, 200, 255)
-      Value.TextSize = 24
-      Value.Font = Enum.Font.GothamBold
-      Value.Parent = Frame
-      
-      task.spawn(function()
-         while Value.Parent do
-            pcall(function()
-               local fps = math.floor(1 / RunService.RenderStepped:Wait())
-               Value.Text = tostring(fps)
-               
-               if fps >= 60 then
-                  Value.TextColor3 = Color3.fromRGB(0, 200, 255)
-               elseif fps >= 30 then
-                  Value.TextColor3 = Color3.fromRGB(255, 200, 0)
-               else
-                  Value.TextColor3 = Color3.fromRGB(255, 50, 50)
-               end
-            end)
-            wait(0.5)
-         end
-      end)
-   else
-      if player.PlayerGui:FindFirstChild("FPSCounter") then
-         player.PlayerGui.FPSCounter:Destroy()
-      end
-   end
-end
+function ApplyUltraBoost() print("⚡ Ultra") RemoveTextures() RemoveParticles() RemoveShadows(true) RemoveFog(true) OptimizeWorkspace() print("✅ Done") end
+function ApplyPotatoMode() print("🥔 Potato") for _, obj in pairs(Workspace:GetDescendants()) do pcall(function() if obj:IsA("Texture") then obj:Destroy() end if obj:IsA("Decal") then obj:Destroy() end if obj:IsA("ParticleEmitter") then obj:Destroy() end if obj:IsA("Trail") then obj:Destroy() end if obj:IsA("MeshPart") then obj.TextureID = "" end end) end Lighting.GlobalShadows = false Lighting.FogEnd = 100000 settings().Rendering.QualityLevel = Enum.QualityLevel.Level01 print("✅ Done") end
+function ApplyPerformanceMode() print("⚡ Perf") RemoveShadows(true) RemoveFog(true) RemoveParticles() Lighting.Brightness = 2 print("✅ Done") end
+function RemoveTextures() local c = 0 for _, obj in pairs(Workspace:GetDescendants()) do pcall(function() if obj:IsA("Texture") then obj:Destroy() c = c + 1 elseif obj:IsA("MeshPart") then obj.TextureID = "" c = c + 1 end end) end print("✅ Removed " .. c .. " textures") end
+function RemoveParticles() local c = 0 for _, obj in pairs(Workspace:GetDescendants()) do pcall(function() if obj:IsA("ParticleEmitter") or obj:IsA("Trail") or obj:IsA("Smoke") or obj:IsA("Fire") then obj:Destroy() c = c + 1 end end) end print("✅ Removed " .. c .. " particles") end
+function RemoveShadows(e) if e then Lighting.GlobalShadows = false for _, obj in pairs(Workspace:GetDescendants()) do pcall(function() if obj:IsA("BasePart") then obj.CastShadow = false end end) end print("✅ Shadows off") else Lighting.GlobalShadows = true end end
+function RemoveFog(e) Lighting.FogEnd = e and 100000 or 500 print("✅ Fog " .. (e and "off" or "on")) end
+function ClearMemory() for i = 1, 10 do wait() collectgarbage("collect") end print("✅ Memory cleared") end
+function RemoveUnusedAssets() local c = 0 for _, obj in pairs(Workspace:GetDescendants()) do pcall(function() if obj:IsA("Sound") and not obj.IsPlaying then obj:Destroy() c = c + 1 end end) end print("✅ Removed " .. c .. " assets") end
+function OptimizeWorkspace() for _, obj in pairs(Workspace:GetDescendants()) do pcall(function() if obj:IsA("BasePart") and obj.Transparency >= 0.98 then obj.Material = Enum.Material.SmoothPlastic end end) end print("✅ Workspace OK") end
+function FixPhysics() for _, obj in pairs(Workspace:GetDescendants()) do pcall(function() if obj:IsA("BasePart") then obj.Massless = true end end) end print("✅ Physics OK") end
+function ShowFPSCounter(e) if e then if player.PlayerGui:FindFirstChild("FPSCounter") then player.PlayerGui.FPSCounter:Destroy() end local g = Instance.new("ScreenGui") g.Name = "FPSCounter" g.ResetOnSpawn = false g.Parent = player.PlayerGui local f = Instance.new("Frame") f.Size = UDim2.new(0, 90, 0, 55) f.Position = UDim2.new(1, -100, 0, 10) f.BackgroundColor3 = Color3.fromRGB(25, 25, 25) f.BorderSizePixel = 0 f.Parent = g local c = Instance.new("UICorner") c.CornerRadius = UDim.new(0, 6) c.Parent = f local s = Instance.new("UIStroke") s.Color = Color3.fromRGB(0, 125, 255) s.Thickness = 1 s.Parent = f local l = Instance.new("TextLabel") l.Size = UDim2.new(1, 0, 0, 18) l.Position = UDim2.new(0, 0, 0, 6) l.BackgroundTransparency = 1 l.Text = "FPS" l.TextColor3 = Color3.fromRGB(150, 150, 150) l.TextSize = 10 l.Font = Enum.Font.GothamBold l.Parent = f local v = Instance.new("TextLabel") v.Size = UDim2.new(1, 0, 0, 28) v.Position = UDim2.new(0, 0, 0, 22) v.BackgroundTransparency = 1 v.Text = "60" v.TextColor3 = Color3.fromRGB(0, 200, 255) v.TextSize = 24 v.Font = Enum.Font.GothamBold v.Parent = f task.spawn(function() while v.Parent do pcall(function() local fps = math.floor(1 / RunService.RenderStepped:Wait()) v.Text = tostring(fps) if fps >= 60 then v.TextColor3 = Color3.fromRGB(0, 200, 255) elseif fps >= 30 then v.TextColor3 = Color3.fromRGB(255, 200, 0) else v.TextColor3 = Color3.fromRGB(255, 50, 50) end end) wait(0.5) end end) else if player.PlayerGui:FindFirstChild("FPSCounter") then player.PlayerGui.FPSCounter:Destroy() end end end
 
 print("\n✅ FPS OPTIMIZER LOADED!")
-print("🎨 Rayfield Style with Custom Logo")
-print("📌 Upload logo to imgur/catbox")
-print("💡 Change LOGO_IMAGE at line 25")
-print("💡 Change window name at line 602")
+print("🎨 Rayfield Style with NY Logo")
+print("💡 Logo built-in, no upload needed!")
 print(string.rep("=", 70) .. "\n")
